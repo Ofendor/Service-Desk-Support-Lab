@@ -40,4 +40,4 @@ Set-DnsClientServerAddress -InterfaceIndex 4 -ServerAddresses 127.0.0.1
 
 | Script | Purpose |
 |---|---|
-| `scripts/01-configure-static-ip.ps1` | Set static IP on DC before AD install |
+| `scripts/01-configure-static-ip.ps1` | Set static IP and DNS on DC01 Server before AD install |
