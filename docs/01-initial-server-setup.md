@@ -34,6 +34,7 @@ New-NetIPAddress -InterfaceIndex 4 -IPAddress 192.168.10.10 -PrefixLength 24 -De
 
 # Set DNS
 Set-DnsClientServerAddress -InterfaceIndex 4 -ServerAddresses 127.0.0.1
+```
 
 ## PowerShell Scripts
 
