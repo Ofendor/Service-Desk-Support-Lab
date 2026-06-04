@@ -14,7 +14,7 @@
 - Installed VirtualBox Guest Additions for mouse integration and clipboard sharing.
 - Created a shared folder with host machine.
 
-![Boot Order Configuration](../screenshots/01-install-vbox-guest-additions.png)
+![Boot Order Configuration](..../screenshots/01-install-vbox-guest-additions.png)
 
 ### Network Configuration
 - Set static IP: `192.168.10.10`
