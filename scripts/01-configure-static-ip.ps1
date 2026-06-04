@@ -18,3 +18,5 @@ Get-NetIPAddress -InterfaceIndex $adapter.InterfaceIndex | Select-Object IPAddre
 
 Write-Host "=== DNS Configuration ==="
 Get-DnsClientServerAddress -InterfaceIndex $adapter.InterfaceIndex
+
+# Note: refer to docs ~/doc/01-initial-server-setup.md file for further instructions
