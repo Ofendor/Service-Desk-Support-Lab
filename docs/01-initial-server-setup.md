@@ -15,6 +15,7 @@
 - Created a shared folder with host machine.
 
 ![Install VBox Guest Additions](../screenshots/01-install-vbox-guest-additions.png)
+![Add Shared Folder](../screenshots/02-add-shared-folder.png)
 
 ### Network Configuration
 - Set static IP: `192.168.10.10`
