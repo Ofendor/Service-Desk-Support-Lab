@@ -14,7 +14,7 @@
 - Installed VirtualBox Guest Additions for mouse integration and clipboard sharing.
 - Created a shared folder with host machine.
 
-![01-install-vbox-guest-additions](../01-install-vbox-guest-additions.png)
+![01-install-vbox-guest-additions](./01-install-vbox-guest-additions.png)
 
 
 ### Network Configuration
