@@ -22,6 +22,10 @@
 - Configured DNS to point to localhost (127.0.0.1)
 - This ensures the server uses itself for DNS after AD DS installation.
 
+![Configure Static IP 1](../screenshots/03-configure-static-IP-1.png)
+![Configure Static IP 2](../screenshots/04-configure-static-IP-2.png)
+![Configure DNS and Verification](../screenshots/05-configure-DNS-and-verification.png)
+
 ## Commands Used
 
 ```powershell
