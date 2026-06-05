@@ -69,6 +69,8 @@ graph TD
 ```
 
 ## Lab overview
+
+```mermaid
 graph TD
     HOST[VirtualBox Host] --- NET[ServicedeskLab NAT Network<br>192.168.10.0/24]
 
