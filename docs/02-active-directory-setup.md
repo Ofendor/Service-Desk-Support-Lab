@@ -11,13 +11,13 @@
 
 ### Command
 
-```
+```powershell
 Install-WindowsFeature AD-Domain-Services, DNS, DHCP -IncludeManagementTools
 ```
 
 ### Verification
 
-```
+```powershell
 Get-WindowsFeature AD-Domain-Services, DNS, DHCP | Format-Table Name, DisplayName, InstallState
 
 # Expected: All three roles show Installed.
