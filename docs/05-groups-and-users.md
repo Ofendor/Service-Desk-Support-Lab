@@ -10,15 +10,21 @@ Security groups control access to resources. Users are added to groups based on 
 | HR_Group | Global | Security |
 | IT_Group | Global | Security |
 
+---
+
 ### Creation Command
 
+```powershell
 $groups = @("Sales_Group", "HR_Group", "IT_Group")
 
 foreach ($group in $groups) {
     New-ADGroup -Name $group -GroupScope Global -GroupCategory Security -Path "DC=servicedesk,DC=lab"
 }
+```
 
-![Groups Created](../screenshots/09-groups-created.png)
+![Groups Created](../screenshots/18-groups-created.png)
+
+---
 
 ## Users
 
@@ -54,9 +60,29 @@ foreach ($group in $groups) {
 | Sione Tupou | sione.tupou |
 | Maria Gonzalez | maria.gonzalez |
 
-![Users Created](../screenshots/10-users-created.png)
+![Users Created](../screenshots/19-users-created1.png)
+![Users Created](../screenshots/20-users-created-result.png)
 
-## Scripts
+### User verification
+
+Use the following code to verify user creation:
+
+```powershell
+Write-Host "`n--- Sales ---"
+Get-ADUser -Filter * -SearchBase "OU=Sales,$domainPath" | Select-Object Name, SamAccountName, Enabled
+Write-Host "`n--- HR ---"
+Get-ADUser -Filter * -SearchBase "OU=HR,$domainPath" | Select-Object Name, SamAccountName, Enabled
+Write-Host "`n--- IT ---"
+Get-ADUser -Filter * -SearchBase "OU=IT,$domainPath" | Select-Object Name, SamAccountName, Enabled
+```
+
+Expect the following result showing up:
+
+![Users Created](../screenshots/21-users-verified.png)
+
+---
+
+## Scripts you should use
 - [Create Groups](../scripts/07-create-groups.ps1)
 - [Create Users](../scripts/08-create-users.ps1)
 
