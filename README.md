@@ -60,6 +60,8 @@ NOTE: we are using Windows 11 instead of Windows 10 because expired October 2025
 
 ## Repository Structure
 
+Note: This is subject to changes
+
 ```mermaid
 graph TD
     ROOT[Service-Desk-Support-Lab] --- SCRIPTS[scripts<br>PowerShell automation]
