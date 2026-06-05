@@ -66,3 +66,26 @@ graph TD
     VBox --- DC01[AKL-DC01<br>192.168.10.10<br>AD DS / DNS / DHCP]
     VBox --- W11A[WIN11-01<br>DHCP Client<br>Domain Joined]
     VBox --- W11B[WIN11-02<br>DHCP Client<br>Domain Joined]
+```
+
+## Lab overview
+graph TD
+    HOST[VirtualBox Host] --- NET[ServicedeskLab NAT Network<br>192.168.10.0/24]
+
+    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>25 GB<br>.10 Static]
+    DC01 --- AD[AD DS / DNS / DHCP]
+    DC01 --- WSUS[WSUS Patch Management]
+    DC01 --- FS[File Shares<br>NTFS & Share Perms]
+    DC01 --- GPO[Group Policy<br>Password & Lockout]
+
+    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>30 GB<br>DHCP]
+    W11 --- DOMAIN[Domain Joined]
+    W11 --- INTUNE[Intune Enrolled]
+
+    NET --- DEBIAN[Debian Linux<br>5-10 GB<br>.20 Static]
+    DEBIAN --- OSTICKET[osTicket<br>Ticketing System]
+
+    NET --- W11B[WIN11-02<br>Windows 11 Enterprise<br>30 GB<br>DHCP<br>Optional]
+
+    CLOUD[Cloud Services] --- AZURE[Azure AD / Intune Trial]
+    CLOUD --- M365[Microsoft 365 Trial<br>Optional]
