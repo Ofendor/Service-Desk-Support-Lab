@@ -8,12 +8,14 @@ Organisational Units (OUs) provide a logical structure for organising users, gro
 
 ## Structure
 
-servicedesk.lab
-├── Sales
-├── HR
-├── IT
-├── Disabled Users
-└── Workstations
+```mermaid
+graph TD
+    DOMAIN[servicedesk.lab] --- SALES[Sales]
+    DOMAIN --- HR[HR]
+    DOMAIN --- IT[IT]
+    DOMAIN --- DISABLED[Disabled Users]
+    DOMAIN --- WKST[Workstations]
+```
 
 ![OUs Created](../screenshots/17-ous-created2.png)
 
