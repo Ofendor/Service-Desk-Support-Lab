@@ -11,6 +11,8 @@ You cna use your own. This were my personal preferences:
 - **DNS Server:** 192.168.10.10
 - **DNS Domain Name:** servicedesk.lab
 
+---
+
 ## Configuration Commands
 
 ### Create Scope
@@ -37,6 +39,7 @@ Set-DhcpServerV4OptionValue -ScopeId 192.168.10.0 -DnsDomain servicedesk.lab
 Add-DhcpServerInDC
 Restart-Service DHCPServer
 ```
+---
 
 ## Verification
 
@@ -63,11 +66,13 @@ Expected:
 
 ```powershell
 Get-DhcpServerInDC
-````
+```
 
 Expected: Server is authorized in Active Directory.
 
 ![DHCP Scope Verified](../screenshots/16-DHCP-scope-config-validated.png)
+
+---
 
 ## What DHCP Provides to Clients
 When a workstation joins the network, it automatically receives:
