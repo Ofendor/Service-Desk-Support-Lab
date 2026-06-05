@@ -54,6 +54,8 @@ Anyone who wants to break into IT support, sharpen their Active Directory skills
 | 3 | Windows 11 Enterprise (optional) | WIN11-02 | DHCP | Domain-joined client |
 | 4 | Debian Linux | Debian-SRV | 192.168.10.20 | osTicket ticketing system |
 
+NOTE: we are using Windows 11 instead of Windows 10 because expired October 2025. I want you to use current software to be familiar with rather than using legacy. Be aware that some companies stiull rely on legacy software these days.
+
 ---
 
 ## Repository Structure
