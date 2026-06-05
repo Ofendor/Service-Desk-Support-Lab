@@ -83,14 +83,14 @@ graph TD
 
 | Script | Purpose |
 |---|---|
-| [scripts/01-configure-static-ip.ps1](scripts/01-configure-static-ip.ps1) | Set static IP and DNS on DC01 |
-| [scripts/02-install-ad-ds.ps1](scripts/02-install-ad-ds.ps1) | Install AD DS, DNS, DHCP roles |
-| [scripts/03-promote-dc.ps1](scripts/03-promote-dc.ps1) | Promote server to Domain Controller |
-| [scripts/04-verify-domain.ps1](scripts/04-verify-domain.ps1) | Post-promotion verification checks |
-| [scripts/05-configure-dhcp.ps1](scripts/05-configure-dhcp.ps1) | Configure DHCP scope and options |
-| [scripts/06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
-| [scripts/07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
-| [scripts/08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
+| [01-configure-static-ip.ps1](scripts/01-configure-static-ip.ps1) | Set static IP and DNS on DC01 |
+| [02-install-ad-ds.ps1](scripts/02-install-ad-ds.ps1) | Install AD DS, DNS, DHCP roles |
+| [03-promote-dc.ps1](scripts/03-promote-dc.ps1) | Promote server to Domain Controller |
+| [04-verify-domain.ps1](scripts/04-verify-domain.ps1) | Post-promotion verification checks |
+| [05-configure-dhcp.ps1](scripts/05-configure-dhcp.ps1) | Configure DHCP scope and options |
+| [06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
+| [07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
+| [08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
 
 ## Final Lab Environment Overview
 
