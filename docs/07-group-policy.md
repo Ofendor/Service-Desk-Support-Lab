@@ -121,3 +121,73 @@ Get-SmbShare -Name "SalesShare"
 
 ---
 
+#### Drive map configuration (GUI guide)
+
+Drive mapping preferences cannot be fully set in PowerShell. We used the GUI:
+
+- Action: Update
+- Location: \\AKL-DC01\SalesShare
+- Reconnect: Enabled
+- Label: Sales Drive
+- Drive Letter: S:
+
+![Creating Sales drive 'S:' mapping for GPO/](../screenshots/29-create-sales-drive-mapping-GPO1.png)
+*Creating Sales drive 'S:' mapping for GPO*
+![Setting configurations for Sales drive 'S:' and mapping for GPO/](../screenshots/29-create-sales-drive-mapping-GPO2.png)
+*Setting configurations for Sales drive 'S:' and then mapping into GPO*
+
+After creating the GPO, we linked it to the Sales OU:
+
+```powershell
+New-GPO -Name "Sales Drive Mapping"
+New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicedesk,DC=lab"
+```
+
+If you get this message, no worries. It means your GUI set up has been successful.
+
+```powershell
+PS C:\Users\Administrator> New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicedesk,DC=lab"
+New-GPLink : The GPO named 'Sales Drive Mapping' is already linked to a Scope of Management with Path 'OU=Sales,DC=servicedesk,DC=lab'.
+At line:1 char:1
++ New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicede ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (Microsoft.Group...ewGPLinkCommand:NewGPLinkCommand) [New-GPLink], ArgumentException
+    + FullyQualifiedErrorId : UnableToCreateNewLink,Microsoft.GroupPolicy.Commands.NewGPLinkCommand
+
+PS C:\Users\Administrator> New-GPO -Name "Sales Drive Mapping"
+New-GPO : The command cannot be completed because a "Sales Drive Mapping" GPO already exists in the servicedesk.lab domain.
+Parameter name: Sales Drive Mapping
+At line:1 char:1
++ New-GPO -Name "Sales Drive Mapping"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (Microsoft.Group...s.NewGpoCommand:NewGpoCommand) [New-GPO], ArgumentException
+    + FullyQualifiedErrorId : GpoWithNameAlreadyExists,Microsoft.GroupPolicy.Commands.NewGpoCommand
+```
+
+## Final Verification Step
+After the previous steps. move to WIN11-01 Virtual Machine and log-in using William Tane credentials. The password is going to be the same as the WIN11-01 VM. DUe to Password Policy previously set up, a new password assignation screen will pop up. Assign a new password, log in an Force Group Policy update on a client.
+
+![Loggin WIN11-01 with a Sales user credentials/](../screenshots/screenshots/30-1-loggin-tane-williams.png)
+*Loggin WIN11-01 with a Sales user credentials*
+
+![Forcing group policy update on a client/](../screenshots/screenshots/30-updating-policies-WIN11-01.png)
+*Forcing group policy update on a client*
+
+After running `gpupdate /force` and restarting WIN11‑01, the S: drive appears for any Sales user (William is one of them).
+
+Have in mind that creating the GPO on the server is only half the job. Group Policy does not
+apply instantly because it refreshes on a schedule (every 90 minutes by default, plus a random offset).
+In a real service desk environment, you would never ask a user to wait up to two hours for a
+change to take effect.
+
+Running `gpupdate /force` tells the client to pull down every GPO immediately. The restart
+ensures that settings which only apply at boot or login (like drive mappings) are fully processed.
+
+We then log in as a Sales user to confirm the drive appears, and log in as a non‑Sales user to
+confirm it does not. This is the same verification step you would perform before closing a ticket:
+*"I've made the change — now let me prove it works before I tell the user it's done."*
+
+Finally, after rebooting, logging with William Tane credentials again and confirm the **'S:/'** drive is visible.
+
+![William Tane confirming 'S:' drive presence/](../screenshots/screenshots/30-2-drive-mapping-working-tane-williams.png)
+*William Tane confirming 'S:' drive presence*
