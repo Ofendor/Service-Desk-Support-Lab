@@ -105,6 +105,14 @@ Get-ADComputer -Filter * -SearchBase "OU=Workstations,DC=servicedesk,DC=lab" | F
 ![Groups Created](../screenshots/23-computer-in-ou1.png)
 ![Groups Created](../screenshots/23-computer-in-ou2.png)
 
+WIN11-01 is now a fully domain‑joined workstation, receiving DNS and DHCP from the domain controller, and ready for Group Policy application and resource access.
+
 ---
+
+## Scripts
+
+- [Join Domain (reference)](../scripts/13-join-domain.ps1)
+- [Move Computer to OU](../scripts/14-move-computer.ps1)
+
 
 
