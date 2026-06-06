@@ -191,3 +191,12 @@ Finally, after rebooting, logging with William Tane credentials again and confir
 
 ![William Tane confirming 'S:' drive presence/](../screenshots/30-2-drive-mapping-working-tane-williams.png)
 *William Tane confirming 'S:' drive presence*
+
+## All GPO Links at a Glance
+
+```mermaid
+graph TD
+    DOMAIN[servicedesk.lab] --- PW[Password Policy]
+    DOMAIN --- LOCK[Account Lockout Policy]
+    DOMAIN --- SALES_OU[Sales OU]
+    SALES_OU --- DRIVE[Sales Drive Mapping]
