@@ -54,9 +54,13 @@ Anyone who wants to break into IT support, sharpen their Active Directory skills
 | 3 | Windows 11 Enterprise (optional) | WIN11-02 | DHCP | Domain-joined client |
 | 4 | Debian Linux | Debian-SRV | 192.168.10.20 | osTicket ticketing system |
 
+NOTE: we are using Windows 11 instead of Windows 10 because expired October 2025. I want you to use current software to be familiar with rather than using legacy. Be aware that some companies stiull rely on legacy software these days.
+
 ---
 
 ## Repository Structure
+
+Note: This is subject to changes
 
 ```mermaid
 graph TD
@@ -83,14 +87,14 @@ graph TD
 
 | Script | Purpose |
 |---|---|
-| [scripts/01-configure-static-ip.ps1](scripts/01-configure-static-ip.ps1) | Set static IP and DNS on DC01 |
-| [scripts/02-install-ad-ds.ps1](scripts/02-install-ad-ds.ps1) | Install AD DS, DNS, DHCP roles |
-| [scripts/03-promote-dc.ps1](scripts/03-promote-dc.ps1) | Promote server to Domain Controller |
-| [scripts/04-verify-domain.ps1](scripts/04-verify-domain.ps1) | Post-promotion verification checks |
-| [scripts/05-configure-dhcp.ps1](scripts/05-configure-dhcp.ps1) | Configure DHCP scope and options |
-| [scripts/06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
-| [scripts/07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
-| [scripts/08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
+| [01-configure-static-ip.ps1](scripts/01-configure-static-ip.ps1) | Set static IP and DNS on DC01 |
+| [02-install-ad-ds.ps1](scripts/02-install-ad-ds.ps1) | Install AD DS, DNS, DHCP roles |
+| [03-promote-dc.ps1](scripts/03-promote-dc.ps1) | Promote server to Domain Controller |
+| [04-verify-domain.ps1](scripts/04-verify-domain.ps1) | Post-promotion verification checks |
+| [05-configure-dhcp.ps1](scripts/05-configure-dhcp.ps1) | Configure DHCP scope and options |
+| [06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
+| [07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
+| [08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
 
 ## Final Lab Environment Overview
 
