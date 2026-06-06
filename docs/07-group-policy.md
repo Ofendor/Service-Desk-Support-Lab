@@ -27,3 +27,5 @@ Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Window
 Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "MinimumPasswordLength" -Type DWord -Value 8
 Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "PasswordComplexity" -Type DWord -Value 1
 New-GPLink -Name "Password Policy" -Target "DC=servicedesk,DC=lab"
+```
+![Groups Created](../screenshots/18-groups-created.png)
