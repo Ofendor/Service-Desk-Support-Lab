@@ -167,10 +167,10 @@ At line:1 char:1
 ## Final Verification Step
 After the previous steps. move to WIN11-01 Virtual Machine and log-in using William Tane credentials. The password is going to be the same as the WIN11-01 VM. DUe to Password Policy previously set up, a new password assignation screen will pop up. Assign a new password, log in an Force Group Policy update on a client.
 
-![Loggin WIN11-01 with a Sales user credentials/](../screenshots/screenshots/30-1-loggin-tane-williams.png)
+![Loggin WIN11-01 with a Sales user credentials/](../screenshots/30-1-loggin-tane-williams.png)
 *Loggin WIN11-01 with a Sales user credentials*
 
-![Forcing group policy update on a client/](../screenshots/screenshots/30-updating-policies-WIN11-01.png)
+![Forcing group policy update on a client/](../screenshots/30-updating-policies-WIN11-01.png)
 *Forcing group policy update on a client*
 
 After running `gpupdate /force` and restarting WIN11‑01, the S: drive appears for any Sales user (William is one of them).
@@ -189,5 +189,5 @@ confirm it does not. This is the same verification step you would perform before
 
 Finally, after rebooting, logging with William Tane credentials again and confirm the **'S:/'** drive is visible.
 
-![William Tane confirming 'S:' drive presence/](../screenshots/screenshots/30-2-drive-mapping-working-tane-williams.png)
+![William Tane confirming 'S:' drive presence/](../screenshots/30-2-drive-mapping-working-tane-williams.png)
 *William Tane confirming 'S:' drive presence*
