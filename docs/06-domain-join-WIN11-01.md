@@ -111,8 +111,8 @@ WIN11-01 is now a fully domain‑joined workstation, receiving DNS and DHCP from
 
 ## Scripts
 
-- [Join Domain (reference)](../scripts/13-join-domain.ps1)
-- [Move Computer to OU](../scripts/14-move-computer.ps1)
+- [Join Domain (reference)](../scripts/09-join-domain.ps1)
+- [Move Computer to OU](../scripts/10-move-computer.ps1)
 
 
 
