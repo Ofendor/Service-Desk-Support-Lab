@@ -81,7 +81,10 @@ graph TD
 - [DHCP Configuration](docs/03-dhcp-configuration.md)
 - [Organisational Units](docs/04-organisational-units.md)
 - [Groups and Users](docs/05-groups-and-users.md)
-- more to come
+- [Domain join for WIN11-01 Virtual Machine](docs/06-domain-join-WIN11-01.md)
+- [Implementing basic group policies](docs/07-group-policy.md)
+- [Setting Logon hours restrictions for a single user](docs/08-logon-hours-restrictions.md)
+- more to come...
 
 ## PowerShell Scripts
 
@@ -95,6 +98,7 @@ graph TD
 | [06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
 | [07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
 | [08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
+| [09-join-domain.ps1](scripts/09-join-domain.ps1) | Joining WIN11=01 VM to the Server Domain | 
 
 ## Final Lab Environment Overview
 
