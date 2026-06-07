@@ -85,3 +85,30 @@ Check the user's current logon hours:
 Get-ADUser -Identity tane.williams -Properties LogonHours | Select-Object -ExpandProperty LogonHours
 ```
 
+---
+
+## What Happens When a User Is Outside Their Allowed Hours
+
+| Situation | Result |
+|---|---|
+| User tries to log in outside allowed hours | "Your account has time restrictions that prevent you from signing in" |
+| User is already logged in when hours end | A warning appears and they are forced off within a few minutes |
+| User tries to unlock a locked session | Denied if outside allowed hours |
+
+## Service Desk Troubleshooting
+
+If a user reports "I can't log in" during what should be their working hours:
+
+1. Check the **Logon Hours** grid on their account
+2. Verify the **system time** on the client machine — a wrong time zone can cause false denials
+3. Confirm with their **manager** what hours they should have
+4. Adjust the hours if the request is approved
+
+## Scripts
+
+- [Set Single User Logon Hours](../scripts/15-set-logon-hours.ps1)
+- [Bulk Department Logon Hours (reference)](../scripts/16-set-department-logon-hours.ps1)
+
+## Next Steps
+
+This runbook covers the **single‑user** case. When a management request comes in for all departments (Ticket 007 later in this lab), the bulk script will be used.
