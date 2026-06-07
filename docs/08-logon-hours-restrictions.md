@@ -36,10 +36,14 @@ A Runbook is a compilation of routine procedures and operations that are documen
 8. Select all other hours (including Saturday and Sunday) and click **Logon Denied**
 9. Click **OK** → **Apply** → **OK**
 
+![William Tane confirming 'S:' drive presence/](../screenshots/30-2-drive-mapping-working-tane-williams.png)
+*William Tane confirming 'S:' drive presence*
+
+
 ### Visual Guide
 
-![Logon Hours grid for Tane Williams](../screenshots/19-logon-hours.png)
-*The grid shows allowed hours in blue and denied hours in white. Tane can only log in Monday–Friday between 9:00 AM and 2:00 PM.*
+![Single-user Logon hours setting using GUI steps](../screenshots/31-single-user-logon-hours-setting-GUI.png)
+*Single-user Logon hours setting using GUI steps.*
 
 ---
 
