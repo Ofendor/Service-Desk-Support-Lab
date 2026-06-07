@@ -36,14 +36,11 @@ A Runbook is a compilation of routine procedures and operations that are documen
 8. Select all other hours (including Saturday and Sunday) and click **Logon Denied**
 9. Click **OK** → **Apply** → **OK**
 
-![William Tane confirming 'S:' drive presence/](../screenshots/30-2-drive-mapping-working-tane-williams.png)
-*William Tane confirming 'S:' drive presence*
-
-
 ### Visual Guide
 
 ![Single-user Logon hours setting using GUI steps](../screenshots/31-single-user-logon-hours-setting-GUI.png)
 *Single-user Logon hours setting using GUI steps.*
+*The grid shows allowed hours in blue and denied hours in white. Tane can only log in Monday–Friday between 9:00 AM and 2:00 PM.*
 
 ---
 
@@ -62,5 +59,29 @@ $hours = @(
     0xFC,0xFC, # Friday     - 9am-2pm
     0x00,0x00  # Saturday   - no access
 )
+```
 
+```powershell
 Set-ADUser -Identity tane.williams -LogonHours $hours
+```
+
+### How the Byte Array Works
+
+The logon hours are stored as a 21‑byte array (3 bytes per day × 7 days). Each bit represents one hour:
+
+| Bit Position | Hour |
+|---|---|
+| 0 | 00:00–01:00 |
+| 1 | 01:00–02:00 |
+| ... | ... |
+| 23 | 23:00–00:00 |
+
+`0xFC` in binary is `11111100`, which means hours 2 through 7 are allowed and hours 0‑1 are denied. With three bytes per day, we get the full 24‑hour coverage.
+
+### Verification
+Check the user's current logon hours:
+
+```powershell
+Get-ADUser -Identity tane.williams -Properties LogonHours | Select-Object -ExpandProperty LogonHours
+```
+
