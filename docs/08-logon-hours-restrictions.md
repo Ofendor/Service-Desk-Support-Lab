@@ -107,8 +107,8 @@ If a user reports "I can't log in" during what should be their working hours:
 ## Scripts
 
 - [Set Single User Logon Hours](../scripts/15-set-logon-hours.ps1)
-- [Bulk Department Logon Hours (reference)](../scripts/16-set-department-logon-hours.ps1)
 
 ## Next Steps
 
 This runbook covers the **single‑user** case. When a management request comes in for all departments (Ticket 007 later in this lab), the bulk script will be used.
+- [Bulk Department Logon Hours (reference only)](../scripts/16-set-department-logon-hours.ps1)
