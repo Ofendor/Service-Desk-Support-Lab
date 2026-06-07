@@ -11,7 +11,8 @@ It is a simple but effective security control used for:
 - Compliance requirements (e.g. "no logins outside business hours")
 
 This runbook covers the **basic scenario**: applying logon hours to a single user.  
-A bulk department‑wide script is available as a reference for scale operations.
+A bulk department‑wide script is available as a reference for scale operations. 
+A Runbook is a compilation of routine procedures and operations that are documented for reference while working on a critical incident. Sometimes, it can also be referred to as a Playbook
 
 ---
 
