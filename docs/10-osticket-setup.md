@@ -26,16 +26,16 @@ flowchart TB
     OST -.->|reads/writes| DB
 ```
 
-The web interface is published on port **8081** to avoid a conflict with Apache, which already occupies port 80 for another project. Inside Docker, the osTicket container connects to the database container using the hostname `db`.
+The web interface is published on port **8081** to avoid a conflict with Apache, which already occupies port 80 for another project I have. You can use port 80 without restrictions. Inside Docker, the `osTicket` container connects to the database container using the hostname `db`.
 
 ---
 
 ## Prerequisites
 
 - Debian VM connected to the `LabNet` NAT Network with IP `192.168.10.100`
-- Docker and Docker Compose already installed (part of the existing SCADA lab)
-- Firewall allows port 8081: `sudo ufw allow 8081/tcp`
-- DNS record `support.servicedesk.lab` → `192.168.10.100` created on AKL-DC01
+- Docker and Docker Compose already installed. More info in https://docs.docker.com/compose/install/
+- Firewall configurations to allow port 8081 (in my case, you can just add Port 80): `sudo ufw allow 8081/tcp`
+- DNS record `support.servicedesk.lab` → `192.168.10.100` created on AKL-DC01 Server Virtual Machine
 
 ---
 
