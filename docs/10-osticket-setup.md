@@ -102,7 +102,7 @@ http://192.168.10.100:8081
 or
 
 ```
-http://support.servicedesk.lab:8081
+http://support.servicedesk.lab:8081/scp/login.php
 ```
 
 The osTicket Support Center landing page appears. Have in mind that the page will load according to your Debian's inet at that moment. Remember that DC01 Server assigns IP addresses to the VM randomly via DHCP.
