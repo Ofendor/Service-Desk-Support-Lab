@@ -5,6 +5,7 @@
 ![YAML](https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white)
 
 **Date:** June 2026
+**Machine:** Debian Virtual Machine
 
 ## Overview
 
@@ -68,7 +69,6 @@ Paste the following configuration (uses the `campbellsoftwaresolutions/osticket`
 
 - [Docker Compose File](../docker/docker-compose.yml)
 
-Save with `Ctrl+O`, `Enter`, then `Ctrl+X`.
 
 ---
 
@@ -105,7 +105,7 @@ or
 http://support.servicedesk.lab:8081
 ```
 
-The osTicket Support Center landing page appears.
+The osTicket Support Center landing page appears. Have in mind that the page will load according to your Debian's inet at that moment. Remember that DC01 Server assigns IP addresses to the VM randomly via DHCP.
 
 ![osTicket Support Center](../screenshots/36-osticket-support-center.png)
 *The osTicket front page confirms the web server is responding on port 8081*
@@ -122,8 +122,8 @@ http://192.168.10.100:8081/scp
 
 Login credentials:
 
-- **Username:** `admin`
-- **Password:** `Password123!`
+- **Username:** `ostadmin`
+- **Password:** `Admin1`
 
 ![osTicket staff login](../screenshots/38-osticket-login.png)
 *Staff login page at `/scp`*
@@ -141,6 +141,15 @@ To confirm you have full administrative privileges, click **Admin Panel** (top r
 
 ![osTicket admin panel](../screenshots/40-osticket-admin-panel.png)
 *Admin Panel → Settings → System confirms full admin access*
+
+Once in there change the following:
+
+| Setting | Current Value | Change To |
+|---|---|---|
+| Helpdesk URL | `http://localhost:8080/` | `http://support.servicedesk.lab:8081` |
+| Helpdesk Name/Title | My Helpdesk | Service Desk Lab |
+
+Scroll down and click **Save Changes**.
 
 ---
 
