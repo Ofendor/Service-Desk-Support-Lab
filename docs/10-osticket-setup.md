@@ -30,14 +30,21 @@ flowchart TB
 
 The web interface is published on port **8081** to avoid a conflict with Apache, which already occupies port 80 for another project I have. You can use port 80 without restrictions. Inside Docker, the `osTicket` container connects to the database container using the hostname `db`.
 
+> **Why .20 and not a pool address?**
+> osTicket is infrastructure, not a client workstation, so it needs a
+> permanent address. A DHCP reservation on AKL-DC01 pins the Debian VM's
+> MAC to 192.168.10.20 — below the client pool (.100–.200). This mirrors
+> standard practice: infrastructure hosts sit on stable low addresses,
+> while DHCP clients lease from the upper range.
+
 ---
 
 ## Prerequisites
 
-- Debian VM connected to the `LabNet` NAT Network with IP `192.168.10.20` for this session
+- Debian VM connected to the `LabNet` NAT Network, pinned to `192.168.10.20` via a DHCP reservation on AKL-DC01
 - Docker and Docker Compose already installed. More info in https://docs.docker.com/compose/install/
 - Firewall configurations to allow port 8081 (in my case, you can just add Port 80): `sudo ufw allow 8081/tcp`
-- DNS record `support.servicedesk.lab` → `192.168.10.100` created on AKL-DC01 Server Virtual Machine
+- DNS record `support.servicedesk.lab` → `192.168.10.20` created on AKL-DC01 Server Virtual Machine
 
 ---
 
@@ -69,7 +76,6 @@ Paste the following configuration (uses the `campbellsoftwaresolutions/osticket`
 
 - [Docker Compose File](../docker/docker-compose.yml)
 
-
 ---
 
 ## Step 3: Start the Containers
@@ -93,24 +99,17 @@ Expected output: two containers (`osticket-osticket-1` and `osticket-db-1`) with
 
 ## Step 4: Access osTicket in the Browser
 
-From any machine on the lab network (e.g., WIN11-01), open:
-
-```
-http://192.168.10.100:8081
-```
-
-or
+From any machine on the lab network, open one of the following:
 
 ```
 http://support.servicedesk.lab:8081/scp/login.php
-# WIN11-01 and DC-01 server
+# from WIN11-01 and AKL-DC01
 
 http://192.168.10.20:8081/scp/
-# on Debian only
-
+# on Debian itself
 ```
 
-The osTicket Support Center landing page appears. Have in mind that the page will load according to your Debian's inet at that moment. Remember that DC01 Server assigns IP addresses to the VM randomly via DHCP.
+The osTicket Support Center landing page appears. Because a DHCP reservation on AKL-DC01 pins this VM to `192.168.10.20`, the address is stable — always reach osTicket via the friendly name `support.servicedesk.lab:8081`.
 
 ![osTicket Support Center](../screenshots/36-osticket-support-center.png)
 *The osTicket front page confirms the web server is responding on port 8081*
@@ -122,8 +121,8 @@ The osTicket Support Center landing page appears. Have in mind that the page wil
 The Campbell image comes with a pre-configured admin account. Navigate to the staff login page:
 
 ```
-http://192.168.10.100:8081/scp
-# or the options above
+http://support.servicedesk.lab:8081/scp
+# or http://192.168.10.20:8081/scp on Debian
 ```
 
 Login credentials:
