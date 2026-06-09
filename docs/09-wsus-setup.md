@@ -169,7 +169,7 @@ Once the WSUS synchronisation completed (reaching 944/944 processed items), the 
 2. Open VirtualBox Settings → Network.
 3. Change Adapter 1 from NAT back to NAT Network (ServicedeskLab, 192.168.10.0/24).
 4. Boot the server back up.
-5. Use the [Network Restoration Script](../scripts/20-network-restoration-cript.ps1)
+5. Use the [Network Restoration Script](../scripts/20-network-restoration-script.ps1)
 
 ---
 
