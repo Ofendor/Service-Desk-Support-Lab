@@ -103,6 +103,11 @@ or
 
 ```
 http://support.servicedesk.lab:8081/scp/login.php
+# WIN11-01 and DC-01 server
+
+http://192.168.10.20:8081/scp/
+# on Debian only
+
 ```
 
 The osTicket Support Center landing page appears. Have in mind that the page will load according to your Debian's inet at that moment. Remember that DC01 Server assigns IP addresses to the VM randomly via DHCP.
@@ -118,6 +123,7 @@ The Campbell image comes with a pre-configured admin account. Navigate to the st
 
 ```
 http://192.168.10.100:8081/scp
+# or the options above
 ```
 
 Login credentials:
