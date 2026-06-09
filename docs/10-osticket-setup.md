@@ -66,40 +66,7 @@ nano docker-compose.yml
 
 Paste the following configuration (uses the `campbellsoftwaresolutions/osticket` image, which proved more reliable than the official image in this lab):
 
-```yaml
-version: '3'
-
-services:
-  db:
-    image: mariadb:10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: OsticketRoot123!
-      MYSQL_DATABASE: osticket
-      MYSQL_USER: osticket
-      MYSQL_PASSWORD: OsticketPass123!
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-
-  osticket:
-    image: campbellsoftwaresolutions/osticket
-    environment:
-      MYSQL_HOST: db
-      MYSQL_DATABASE: osticket
-      MYSQL_USER: osticket
-      MYSQL_PASSWORD: OsticketPass123!
-    ports:
-      - "8081:80"
-    volumes:
-      - osticket_data:/var/www/html
-    restart: always
-    depends_on:
-      - db
-
-volumes:
-  db_data:
-  osticket_data:
-```
+![Docker Compose File](../docker/docker-compose.yml)
 
 Save with `Ctrl+O`, `Enter`, then `Ctrl+X`.
 
