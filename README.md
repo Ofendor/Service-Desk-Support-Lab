@@ -13,6 +13,12 @@
 ![Markdown](https://img.shields.io/badge/Docs-Markdown-000000?logo=markdown&logoColor=white)
 ![Mermaid](https://img.shields.io/badge/Diagrams-Mermaid-FF3670?logo=mermaid&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Debian](https://img.shields.io/badge/Debian-Linux%20VM-A81D33?logo=debian&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-10.6-003545?logo=mariadb&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-Web%20Server-009639?logo=nginx&logoColor=white)
+![Group Policy](https://img.shields.io/badge/Group%20Policy-GPO-003366?logo=microsoft&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white)
 
 Author: Emilio Mardones
 
