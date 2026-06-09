@@ -66,7 +66,7 @@ nano docker-compose.yml
 
 Paste the following configuration (uses the `campbellsoftwaresolutions/osticket` image, which proved more reliable than the official image in this lab):
 
-![Docker Compose File](../docker/docker-compose.yml)
+- [Docker Compose File](../docker/docker-compose.yml)
 
 Save with `Ctrl+O`, `Enter`, then `Ctrl+X`.
 
