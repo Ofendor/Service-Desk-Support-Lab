@@ -2,6 +2,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-10.6-003545?logo=mariadb&logoColor=white)
 ![osTicket](https://img.shields.io/badge/osTicket-1.18%20(Open%20Source)-green?logo=opensourceinitiative&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white)
 
 **Date:** June 2026
 
