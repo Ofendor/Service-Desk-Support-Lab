@@ -90,7 +90,10 @@ graph TD
 - [Domain join for WIN11-01 Virtual Machine](docs/06-domain-join-WIN11-01.md)
 - [Implementing basic group policies](docs/07-group-policy.md)
 - [Setting Logon hours restrictions for a single user](docs/08-logon-hours-restrictions.md)
-- more to come...
+- [WSUS Patch Management Setup](docs/09-wsus-setup.md)
+- [osTicket Ticketing System Setup](docs/10-osticket-setup.md)
+- Help-desk Ticket Simulations (coming soon)
+- Runbooks (coming soon)
 
 ## PowerShell Scripts
 
@@ -105,6 +108,31 @@ graph TD
 | [07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
 | [08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
 | [09-join-domain.ps1](scripts/09-join-domain.ps1) | Joining WIN11=01 VM to the Server Domain | 
+| [10-move-computer.ps1](scripts/10-move-computer.ps1) | Move computer to Workstations OU |
+| [11-create-password-policy.ps1](scripts/11-create-password-policy.ps1) | Create and link Password Policy GPO |
+| [12-create-lockout-policy.ps1](scripts/12-create-lockout-policy.ps1) | Create and link Account Lockout Policy GPO |
+| [13-create-sales-share.ps1](scripts/13-create-sales-share.ps1) | Create Sales shared folder |
+| [14-link-sales-drive-gpo.ps1](scripts/14-link-sales-drive-gpo.ps1) | Link Sales Drive Mapping GPO to Sales OU |
+| [15-set-logon-hours.ps1](scripts/15-set-logon-hours.ps1) | Set logon hours for a single user |
+| [16-set-department-logon-hours.ps1](scripts/16-set-department-logon-hours.ps1) | Bulk logon hours per department (reference) |
+| [17-install-wsus.ps1](scripts/17-install-wsus.ps1) | Install WSUS role |
+| [18-create-wsus-gpo.ps1](scripts/18-create-wsus-gpo.ps1) | Create WSUS client GPO |
+| [18-create-wsus-gpo-(alternative).ps1](scripts/18-create-wsus-gpo-(alternative).ps1) | Create WSUS client GPO (GUI alternative) |
+| [19-wsus-sync-bottleneck-fix.ps1](scripts/19-wsus-sync-bottleneck-fix.ps1) | Fix frozen WSUS sync and database deadlocks |
+| [20-network-restoration-script.ps1](scripts/20-network-restoration-script.ps1) | Restore static IP after NAT switch |
+| [23-setup-support-dns.sh](scripts/23-setup-support-dns.ps1) | Create DNS record for support.servicedesk.lab |
+
+---
+
+## Bash Scripts (Debian)
+
+| Script | Purpose |
+|---|---|
+| [21-debian-network.sh](scripts/21-debian-network.sh) | Debian network setup reference |
+| [22-osticket-docker-setup.sh](scripts/22-osticket-docker-setup.sh) | Automated osTicket Docker deployment |
+
+
+---
 
 ## Final Lab Environment Overview
 
