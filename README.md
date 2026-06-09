@@ -150,8 +150,8 @@ graph TD
     W11 --- DOMAIN[Domain Joined]
     W11 --- INTUNE[Intune Enrolled]
 
-    NET --- DEBIAN[Debian Linux<br>5-10 GB<br>.20 Static]
-    DEBIAN --- OSTICKET[osTicket<br>Ticketing System]
+    NET --- DEBIAN[Debian Linux<br>5-10 GB<br>192.168.10.20]
+    DEBIAN --- OSTICKET[osTicket<br>:8081]
 
     NET --- W11B[WIN11-02<br>Windows 11 Enterprise<br>30 GB<br>DHCP<br>Optional]
 
