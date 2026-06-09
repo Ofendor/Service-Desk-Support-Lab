@@ -195,9 +195,9 @@ http://support.servicedesk.lab:8081/scp
 
 ## Scripts
 
-- [Debian Network Setup (reference)](../scripts/21-debian-network.sh)
-- [osTicket Docker Setup (automated)](../scripts/22-osticket-docker-setup.sh)
-- [Support DNS Record (PowerShell)](../scripts/23-setup-support-dns.ps1)
+- [Debian Network Setup (Debian network setup reference)](../scripts/21-debian-network.sh)
+- [osTicket Docker Setup (Automated osTicket Docker deployment)](../scripts/22-osticket-docker-setup.sh)
+- [Support DNS Record (PowerShell)- Create the support DNS record on DC01](../scripts/23-setup-support-dns.ps1)
 
 ---
 
