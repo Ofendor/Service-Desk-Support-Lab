@@ -17,7 +17,7 @@ osTicket is an open-source ticketing system used to log, track, and resolve supp
 
 ```mermaid
 flowchart TB
-    Debian[Debian VM<br/>192.168.10.100]
+    Debian[Debian VM<br/>192.168.10.20]
     Docker[Docker Engine]
     DB[Container: osticket-db-1<br/>MariaDB 10.6]
     OST[Container: osticket-osticket-1<br/>osTicket + nginx<br/>Port 8081 → 80]
@@ -34,7 +34,7 @@ The web interface is published on port **8081** to avoid a conflict with Apache,
 
 ## Prerequisites
 
-- Debian VM connected to the `LabNet` NAT Network with IP `192.168.10.100`
+- Debian VM connected to the `LabNet` NAT Network with IP `192.168.10.20` for this session
 - Docker and Docker Compose already installed. More info in https://docs.docker.com/compose/install/
 - Firewall configurations to allow port 8081 (in my case, you can just add Port 80): `sudo ufw allow 8081/tcp`
 - DNS record `support.servicedesk.lab` → `192.168.10.100` created on AKL-DC01 Server Virtual Machine
@@ -46,13 +46,13 @@ The web interface is published on port **8081** to avoid a conflict with Apache,
 Before installing anything, confirm the Debian VM is on the correct network and can reach the domain controller.
 
 ```bash
-ip a show enp0s3       # should show 192.168.10.100
+ip a show enp0s3       # should show 192.168.10.20
 ping 192.168.10.10     # DC01
 ping google.com        # internet access
 ```
 
 ![Debian IP verified](../screenshots/35b-debian-ip-verified.png)
-*The Debian VM holds the IP 192.168.10.100 on interface enp0s3*
+*The Debian VM holds the IP 192.168.10.20 on interface enp0s3*
 
 ---
 
@@ -161,16 +161,26 @@ Scroll down and click **Save Changes**.
 
 ## Step 7: Create DNS Record on the Domain Controller
 
-On AKL-DC01, run the following PowerShell command so users can reach osTicket by name:
+On `AKL-DC01`, run the following PowerShell command so users can reach osTicket by name:
 
 ```powershell
-Add-DnsServerResourceRecordA -Name "support" -ZoneName "servicedesk.lab" -IPv4Address "192.168.10.100"
+Add-DnsServerResourceRecordA -Name "support" -ZoneName "servicedesk.lab" -IPv4Address "192.168.10.20"
 ```
 
 Verify the record resolves correctly from WIN11-01:
 
 ```powershell
 nslookup support.servicedesk.lab
+```
+
+Expect:
+```powershell
+PS C:\Users\Administrator> nslookup support.servicedesk.lab
+Server:  localhost
+Address:  127.0.0.1
+
+Name:    support.servicedesk.lab
+Address:  192.168.10.20
 ```
 
 And test in a browser:
