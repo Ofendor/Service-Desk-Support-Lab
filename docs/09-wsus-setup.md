@@ -130,11 +130,46 @@ I switched to PowerShell commands, which bypass the heavy MMC console entirely f
 
 - [WSUS Sync bottleneck fix](../scripts/19-wsus-sync-bottleneck-fix.ps1)
 
+By forcing the system to evaluate tasks headlessly via PowerShell instead of loading the heavy WSUS administration console, the server successfully bypassed interface timeouts.
+
+While your PowerShell script is running, open a different terminal to check the progress:
+
+```powershell
+$Progress = (Get-WsusServer).GetSubscription().GetSynchronizationProgress()
+if ($Progress.TotalItems -gt 0) {
+    $Percent = [Math]::Round(($Progress.ProcessedItems / $Progress.TotalItems) * 100, 2)
+    Write-Host "Sync Progress: $Percent% ($($Progress.ProcessedItems)/$($Progress.TotalItems) Items) - Phase: $($Progress.Phase)" -ForegroundColor Cyan
+} else {
+    Write-Host "Sync Phase: $($Progress.Phase) (Building initial index structure...)" -ForegroundColor Yellow
+}
+```
+
+Expect:
+```powershell
+Sync Progress: 10.54% (100/944 Items) - Phase: Updates
+
+# TotalItems (944) confirms the catalogue scoped correctly to Windows 11 and Windows Server 2022 only.
+# ProcessedItems (1+) confirms data is actively writing to disk without service interruptions.
+```
+
 ---
 
 Successful Synchronization with those two products will show as follow:
 ![WSUS sync commands for monitoring process in PowerShell](../screenshots/32-wsus-sync-complete1.png)
 ![WSUS sync commands for monitoring process in PowerShell](../screenshots/32-wsus-sync-complete2.png)
+
+---
+
+## Post-Synchronisation: Returning to the Domain Network
+Once the WSUS synchronisation completed (reaching 944/944 processed items), the Domain Controller had to be moved back from the temporary NAT adapter to the production NAT Network so domain clients could reach it.
+
+### Hardware Steps (VirtualBox)
+
+1. Shut down AKL-DC01 completely.
+2. Open VirtualBox Settings → Network.
+3. Change Adapter 1 from NAT back to NAT Network (ServicedeskLab, 192.168.10.0/24).
+4. Boot the server back up.
+5. Use the [Network Restoration Script](../scripts/20-network-restoration-cript.ps1)
 
 ---
 
