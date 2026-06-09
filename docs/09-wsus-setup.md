@@ -107,6 +107,31 @@ Restart-Service WsusService -Force
 
 ---
 
+### Why the Sync Kept Failing (and How We Fixed It)
+
+#### The Problem
+
+During the initial synchronisation, WSUS stayed permanently frozen at `0%` or crashed the MMC console with this error:
+
+```makrdown
+The WSUS administration console was unable to connect to the WSUS Server via the remote API.
+System.Net.WebException -- The operation has timed out
+```
+
+#### Root Cause
+
+1. **Database deadlocks** — repeated manual cancellations left corrupted transaction states in the Windows Internal Database. This was my mistake.
+2. **Metadata overload** — selecting broad product categories forced the server to download decades of obsolete updates, crashing the IIS application pool. Thas why we only select Windows 11 and Windows Server 2022
+3. **VirtualBox network bottlenecks** — the NAT Network router saturated under high HTTP concurrency. So I switched to NAT connection on Adapter 1 just for the purpose of the synchronization. Then restored previous IP configurations and went back to NAT Network.
+
+#### How We Resolved It
+
+I switched to PowerShell commands, which bypass the heavy MMC console entirely from WSUS dashboard. The script below performs the full recovery: flushes DNS, resets IIS, restarts the WSUS service, and triggers a targeted synchronisation.
+
+- [WSUS Sync bottleneck fix](../scripts/19-wsus-sync-bottleneck-fix.ps1)
+
+---
+
 Successful Synchronization with those two products will show as follow:
 ![WSUS sync commands for monitoring process in PowerShell](../screenshots/32-wsus-sync-complete1.png)
 ![WSUS sync commands for monitoring process in PowerShell](../screenshots/32-wsus-sync-complete2.png)
