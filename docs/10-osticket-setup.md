@@ -194,17 +194,6 @@ http://support.servicedesk.lab:8081/scp
 
 ---
 
-## Troubleshooting Notes
-
-| Issue | Solution |
-|---|---|
-| Port 80 already in use (Apache) | Changed host port to `8081` in `docker-compose.yml` |
-| Official `osticket/osticket` image PHP error | Switched to `campbellsoftwaresolutions/osticket` |
-| Port 8080 also in use (Java SCADA app) | Used `8081` instead |
-| Container restarting repeatedly | Check logs: `sudo docker logs osticket-osticket-1` |
-
----
-
 ## Scripts
 
 - [Debian Network Setup (reference)](../scripts/21-debian-network.sh)
