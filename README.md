@@ -18,6 +18,7 @@
 ![MariaDB](https://img.shields.io/badge/MariaDB-10.6-003545?logo=mariadb&logoColor=white)
 ![Nginx](https://img.shields.io/badge/Nginx-Web%20Server-009639?logo=nginx&logoColor=white)
 ![Group Policy](https://img.shields.io/badge/Group%20Policy-GPO-003366?logo=microsoft&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white)
 
 Author: Emilio Mardones
 
