@@ -168,6 +168,27 @@ icacls "C:\Shares\Sales"
 
 ![Creating a shared folder for Sales department: Disk S:/](../screenshots/29-creating-sales-shared-folder.png)
 *Creating a shared folder for Sales department: Disk S:/*
+<!-- SCREENSHOT: icacls before/after — NTFS Modify grant applied to Sales_Group, plus Get-SmbShareAccess showing the share layer -->
+![NTFS grant applied to Sales_Group](../screenshots/29b-sales-share-ntfs-grant.png)
+*Before/after: the folder initially had only inherited ACEs (no Sales_Group entry). After the explicit grant, `Sales_Group:(OI)(CI)(M)` appears at the top — explicit ACEs carry no `(I)` flag. `Get-SmbShareAccess` confirms the share layer was already correct, proving the gap was NTFS-only.*
+
+---
+
+#### OBSERVATION For Service Desk beginners:
+> If you come across a task related, notice that when applying changes via GUI you are in
+>  **the half-working share trap:** before the explicit grant, this folder had
+> only inherited ACEs from `C:\`. Those defaults let authenticated users
+> *create* files (`BUILTIN\Users (AD)/(WD)`) but not modify or delete files
+> owned by others. The result is the sneakiest kind of misconfiguration: a
+> quick "can I save a file?" test passes, while "edit the team spreadsheet"
+> fails. On a service desk this surfaces as: *"I can create files on S: but
+> can't edit Sarah's report."* Always test **modifying a file someone else
+> created**, not just creating your own, and always check both layers:
+> `Get-SmbShareAccess` (share) and `icacls` (NTFS).
+>
+> This exact misconfiguration will be deliberately reintroduced and resolved
+> as a ticket simulation [see Ticket 006].
+
 
 ---
 
