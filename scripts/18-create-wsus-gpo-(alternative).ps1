@@ -11,29 +11,42 @@
 # Alternative version of the script using backticks for line continuation
 New-GPO -Name "WSUS Client Configuration" -ErrorAction SilentlyContinue    # Create GPO
 
-Set-GPRegistryValue -Name "WSUS Client Configuration" ` # Set WUServer registry value
-    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" ` # Registry key for Windows Update settings
-    -ValueName "WUServer" ` # Name of the registry value to set
+# Set WUServer registry value
+# Registry key for Windows Update settings
+# Name of the registry value to set
+# URL of the WSUS server
+Set-GPRegistryValue -Name "WSUS Client Configuration" ` 
+    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" ` 
+    -ValueName "WUServer" ` 
     -Type String `
-    -Value "http://AKL-DC01:8530" # URL of the WSUS server
+    -Value "http://AKL-DC01:8530" 
 
-Set-GPRegistryValue -Name "WSUS Client Configuration" ` # Set WUStatusServer registry value
-    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" ` # Registry key for Windows Update settings
-    -ValueName "WUStatusServer" ` # Name of the registry value to set
+# Set WUStatusServer registry value
+# Registry key for Windows Update settings
+# Name of the registry value to set
+# URL of the WSUS server for status reporting
+Set-GPRegistryValue -Name "WSUS Client Configuration" ` 
+    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" ` 
+    -ValueName "WUStatusServer" ` 
     -Type String `
-    -Value "http://AKL-DC01:8530" # URL of the WSUS server for status reporting
+    -Value "http://AKL-DC01:8530" 
 
-Set-GPRegistryValue -Name "WSUS Client Configuration" ` # Set NoAutoUpdate registry value, because we want to enable automatic updates
-    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" ` # Registry key for Automatic Update settings
-    -ValueName "NoAutoUpdate" ` # Name of the registry value to set
+# Set NoAutoUpdate registry value, because we want to enable automatic updates
+# Registry key for Automatic Update settings
+# Name of the registry value to set
+Set-GPRegistryValue -Name "WSUS Client Configuration" ` 
+    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" ` 
+    -ValueName "NoAutoUpdate" ` 
     -Type DWord `
-    -Value 0 # 0 means automatic updates are enabled
+    -Value 0 
 
-Set-GPRegistryValue -Name "WSUS Client Configuration" ` # Set AUOptions registry value to configure automatic update options
-    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" `# Registry key for Automatic Update settings
+# Set AUOptions registry value to configure automatic update options
+# Registry key for Automatic Update settings
+Set-GPRegistryValue -Name "WSUS Client Configuration" ` 
+    -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" `
     -ValueName "AUOptions" `
     -Type DWord `
-    -Value 3 # 3 means "Auto download and notify for install"
+    -Value 3 
 
 New-GPLink -Name "WSUS Client Configuration" -Target "DC=servicedesk,DC=lab" -ErrorAction SilentlyContinue # Link GPO to the domain
 
