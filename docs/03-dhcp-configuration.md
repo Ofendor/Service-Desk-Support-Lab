@@ -1,7 +1,7 @@
 # DHCP Configuration
 
 ## Scope Details
-You cna use your own. This were my personal preferences:
+You can use your own. These were my personal preferences:
 
 - **Scope Name:** Servicedesk-Clients
 - **IP Range:** 192.168.10.100 - 192.168.10.200
@@ -22,7 +22,8 @@ Add-DhcpServerV4Scope `
     -Name "Servicedesk-Clients" `
     -StartRange 192.168.10.100 `
     -EndRange 192.168.10.200 `
-    -SubnetMask 255.255.255.0
+    -SubnetMask 255.255.255.0 `
+    -LeaseDuration 8.00:00:00
 ```
 
 ### Set Scope Options
