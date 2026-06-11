@@ -1,22 +1,26 @@
-# Promotes server to Domain Controller for servicedesk.lab
-# It also installs DNS role if not already installed, and configures DSRM password.
-# After running this script, the server will restart. Log in with SERVICEDESK\Administrator.
-# Don't forget to save your password and take screenshots for your lab!
+# Promotes AKL-DC01 to Domain Controller for servicedesk.lab.
+# Creates a new forest, installs DNS, and sets the DSRM password.
+# The server RESTARTS automatically when this completes.
+# After reboot, log in as SERVICEDESK\Administrator.
 
-$domainName = "servicedesk.lab" # Change this to your desired domain name if needed. Just make sure to update it in all scripts for consistency.
-$netbiosName = "SERVICEDESK" #
-$dsrmPassword = Read-Host "Enter DSRM Password" -AsSecureString # DSRM password is used for Directory Services Restore Mode, important for recovery scenarios. Make sure to remember it!
+$domainName  = "servicedesk.lab"   # Change in ALL scripts if you use a different domain
+$netbiosName = "SERVICEDESK"
+
+# DSRM (Directory Services Restore Mode) password — used only for
+# recovery scenarios. It is NOT the domain Administrator password.
+# Store it somewhere safe; you'll rarely need it but losing it hurts.
+$dsrmPassword = Read-Host "Enter DSRM Password" -AsSecureString
 
 Write-Host "=== Promoting to Domain Controller ==="
-Import-Module ADDSDeployment # Import the ADDSDeployment module to access the Install-ADDSForest cmdlet for promotion.
+Import-Module ADDSDeployment
 
-# Promotes the server to a domain controller and creates a new forest.
-# Windows Server 2016 and later forest functional level. Adjust if using
-# older versions, but I recommend using the latest for new labs.
-Install-ADDSForest ` 
-    -DomainName $domainName `  
+# ForestMode/DomainMode "WinThreshold" = Server 2016+ functional level.
+# CreateDnsDelegation is $false because there is no parent DNS zone
+# above servicedesk.lab to delegate from (it's a private lab domain).
+Install-ADDSForest `
+    -DomainName $domainName `
     -DomainNetbiosName $netbiosName `
-    -ForestMode "WinThreshold" ` 
+    -ForestMode "WinThreshold" `
     -DomainMode "WinThreshold" `
     -InstallDns:$true `
     -CreateDnsDelegation:$false `
