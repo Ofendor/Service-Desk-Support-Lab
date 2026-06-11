@@ -103,7 +103,7 @@ Get-DhcpServerInDC
 
 ## Scripts
 - [Install AD DS Roles](../scripts/02-install-ad-ds.ps1)
-- [Promote Domain Controller](../scripts/03-promote-dc.ps1)
+- [Promote Domain Controller](../scripts/03-promote-domain-controller.ps1)
 - [Verify Domain](../scripts/04-verify-domain.ps1)
 
 ## Next Steps
