@@ -47,7 +47,7 @@ A NAT Network was created to allow all VMs to communicate with each other while 
 | Network | NAT Network (ServicedeskLab) |
 | IP | DHCP (192.168.10.100-200) |
 
-### WIN11-02 (Client - Optional)
+### WIN11-01 (Optional)
 
 | Setting | Value |
 |---|---|
@@ -66,6 +66,25 @@ graph TD
     VBox --- DC01[AKL-DC01<br>192.168.10.10<br>AD DS / DNS / DHCP]
     VBox --- W11A[WIN11-01<br>DHCP Client<br>Domain Joined]
     VBox --- W11B[WIN11-02<br>DHCP Client<br>Domain Joined]
+``````mermaid
+graph TD
+    HOST[VirtualBox Host] --- NET[ServicedeskLab NAT Network<br>192.168.10.0/24]
+
+    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>.10 Static]
+    DC01 --- AD[AD DS / DNS / DHCP]
+    DC01 --- WSUS[WSUS Patch Management]
+    DC01 --- FS[File Shares<br>NTFS & Share Perms]
+    DC01 --- GPO[Group Policy]
+
+    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>DHCP .100-.200]
+    W11 --- DOMAIN[Domain Joined]
+    W11 --- INTUNE[Intune Enrolled]
+
+    NET --- DEBIAN[Debian Linux<br>.20 DHCP Reservation]
+    DEBIAN --- OSTICKET[osTicket<br>Ticketing System]
+
+    CLOUD[Cloud Services] --- AZURE[Azure AD / Intune Trial]
+    CLOUD --- M365[Microsoft 365 Trial<br>Optional]
 ```
 
 ## Lab overview
