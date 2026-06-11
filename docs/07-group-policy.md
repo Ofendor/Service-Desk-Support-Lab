@@ -83,6 +83,8 @@ New-GPLink -Name "Account Lockout Policy" -Target "DC=servicedesk,DC=lab"
 ![Linking the Account Lockout Policy into the Domain GPO](../screenshots/27-link-account-policy-to-domain.png)
 *Linking the Account Lockout Policy into the Domain GPO*
 
+![Linking the Account Lockout Policy into the Domain GPO](../screenshots/27-link-account-policy-to-domain.png)
+*Linking the Account Lockout Policy into the Domain GPO*
 ---
 
 ## GPO3: Sales Drive Mapping
