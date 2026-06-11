@@ -25,66 +25,98 @@ like `password123` or their own name, and prevents them from reusing the same fe
 | Minimum password length | 8 characters | Short passwords are easy to guess. 8 is a good minimum balance between security and usability. |
 | Password must meet complexity requirements | Enabled | Passwords must contain characters from three of these four groups: uppercase, lowercase, digits, and symbols. |
 
-### Creation and linking
+### How it's applied (PowerShell)
 
-We used PowerShell to create the GPO and set the registry‑based values, then linked it to the entire domain.
+Password policy lives in the domain's **Security Settings**, not in registry-based
+policy. The correct cmdlet edits the same store the GPMC GUI does:
 
 ```powershell
-New-GPO -Name "Password Policy"
-Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "PasswordHistorySize" -Type DWord -Value 5
-Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "MaximumPasswordAge" -Type DWord -Value 90
-Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "MinimumPasswordAge" -Type DWord -Value 1
-Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "MinimumPasswordLength" -Type DWord -Value 8
-Set-GPRegistryValue -Name "Password Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "PasswordComplexity" -Type DWord -Value 1
-New-GPLink -Name "Password Policy" -Target "DC=servicedesk,DC=lab"
+Set-ADDefaultDomainPasswordPolicy -Identity servicedesk.lab `
+    -PasswordHistoryCount 5 `
+    -MaxPasswordAge (New-TimeSpan -Days 90) `
+    -MinPasswordAge (New-TimeSpan -Days 1) `
+    -MinPasswordLength 8 `
+    -ComplexityEnabled $true
 ```
-**NOTE:** If you are using GUI instead, here are the steps to follow. GUI provides a more visual/ granular way of understanding how to implement these policies without making mistakes.
+
+### GUI alternative (GPMC)
+
+Group Policy Management → right-click **Default Domain Policy** → Edit →
+Computer Configuration → Windows Settings → Security Settings →
+Account Policies → **Password Policy**.
 
 ![Creating a password policy](../screenshots/24-create-password-policy-GPO1.png)
-*Creating a password policy*
-
 ![Setting a password policy](../screenshots/24-create-password-policy-GPO2.png)
-*Settings in the password policy*
-
-
 ![Link password policy to domain GPO](../screenshots/25-link-password-policy-to-domain-GPO.png)
-*After setting the password policy, you have to link it to the domain GPO. Same step for the policies below.*
+
 
 ---
 
 ## GPO 2: Account Lockout Policy
-This policy locks a user account after too many wrong password attempts. It stops attackers from
-guessing passwords endlessly (brute‑force attacks). After 15 minutes the account unlocks automatically,
-so the service desk doesn't have to unlock it manually for every genuine mistake.
+Locks an account after too many wrong password attempts, stopping brute-force
+guessing. After 15 minutes the account unlocks itself, so genuine mistakes
+don't always need a service desk call.
 
 ### Settings
 
 | Setting | Value | Reason |
 |---|---|---|
-| Account lockout threshold | 5 invalid logon attempts | After 5 wrong passwords the account is locked. This is enough tries for a real user who forgot their password, but too few for an attacker. |
-| Account lockout duration | 15 minutes | The account stays locked for 15 minutes, then unlocks itself. The user only has to wait, not call the help desk. |
-| Reset account lockout counter after | 15 minutes | If the user waits 15 minutes, the failed‑attempt counter goes back to zero. |
+| Account lockout threshold | 5 invalid attempts | Enough for a forgetful user, too few for an attacker. |
+| Account lockout duration | 15 minutes | Self-unlocks — user waits instead of calling. |
+| Reset counter after | 15 minutes | Failed-attempt counter returns to zero. |
 
-### Creation and linking
+> **Important default:** Windows ships with `LockoutThreshold = 0`, which means
+> lockout is **disabled** — unlimited guesses. Enabling it is a deliberate step.
+
+### How it's applied (PowerShell)
 
 ```powershell
-New-GPO -Name "Account Lockout Policy"
-Set-GPRegistryValue -Name "Account Lockout Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "LockoutDuration" -Type DWord -Value 15
-Set-GPRegistryValue -Name "Account Lockout Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "LockoutBadCount" -Type DWord -Value 5
-Set-GPRegistryValue -Name "Account Lockout Policy" -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "ResetLockoutCount" -Type DWord -Value 15
-New-GPLink -Name "Account Lockout Policy" -Target "DC=servicedesk,DC=lab"
+Set-ADDefaultDomainPasswordPolicy -Identity servicedesk.lab `
+    -LockoutThreshold 5 `
+    -LockoutDuration (New-TimeSpan -Minutes 15) `
+    -LockoutObservationWindow (New-TimeSpan -Minutes 15)
 ```
 
-**NOTE:** If you are using GUI instead, here are the steps to follow. GUI provides a more visual/ granular way of understanding how to implement these policies without making mistakes.
+### GUI alternative (GPMC)
+
+Same path as above → Account Policies → **Account Lockout Policy**.
 
 ![Creating an account lockout policy](../screenshots/26-create-account-lockout-policy-GPO.png)
-*Creating an Account Lockout Policy*
+![Linking the Account Lockout Policy](../screenshots/27-link-account-policy-to-domain.png)
 
-![Linking the Account Lockout Policy into the Domain GPO](../screenshots/27-link-account-policy-to-domain.png)
-*Linking the Account Lockout Policy into the Domain GPO*
+### Verification — the policy is live
 
-![Domain Password policy applied](../screenshots/24b-domain-password-policy-applied.png)
-*Domain Password policy applied*
+```powershell
+Get-ADDefaultDomainPasswordPolicy
+```
+
+![Domain password and lockout policy applied](../screenshots/24b-domain-password-policy-applied.png)
+*Both policies applied and verified on AKL-DC01 — lockout threshold 5, min length 8, max age 90 days.*
+
+---
+
+## Lessons Learned — the GPO that "worked" but did nothing
+
+The first version of this lab created two custom GPOs and wrote password/lockout
+values with `Set-GPRegistryValue` under `HKLM\...\Policies\System`. The GPOs
+created fine, linked fine, and applied fine — and enforced **nothing**.
+
+**Why:** Account policies (password + lockout) are *Security Settings*, processed
+from the Default Domain Policy's security database — not from registry policy.
+Registry keys with convincing names like `PasswordComplexity` are not read by
+anything. The proof was one command:
+
+```powershell
+Get-ADDefaultDomainPasswordPolicy
+# Showed Windows defaults: MinPasswordLength 7, LockoutThreshold 0 (disabled)
+```
+
+**The fix:** `Set-ADDefaultDomainPasswordPolicy`, which edits the real policy
+store. The empty GPOs were unlinked and deleted.
+
+**Service desk takeaway:** "the change applied without errors" is not the same as
+"the change works." Always verify the *effective* state, not the deployment step.
+
 ---
 
 ## GPO3: Sales Drive Mapping
