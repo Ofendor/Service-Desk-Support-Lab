@@ -49,40 +49,59 @@ A Runbook is a compilation of routine procedures and operations that are documen
 ### Single User Command
 
 ```powershell
-# Set logon hours for Tane Williams: Mon-Fri 9:00 AM - 2:00 PM
-$hours = @(
-    0x00,0x00, # Sunday     - no access
-    0xFC,0xFC, # Monday     - 9am-2pm
-    0xFC,0xFC, # Tuesday    - 9am-2pm
-    0xFC,0xFC, # Wednesday  - 9am-2pm
-    0xFC,0xFC, # Thursday   - 9am-2pm
-    0xFC,0xFC, # Friday     - 9am-2pm
-    0x00,0x00  # Saturday   - no access
+# Mon-Fri 9:00 AM - 2:00 PM, weekends denied.
+# 21 bytes total: 3 bytes per day x 7 days, starting Sunday.
+$hours = [byte[]](
+    0x00,0x00,0x00,  # Sunday    - no access
+    0x00,0x3E,0x00,  # Monday    - 9am-2pm
+    0x00,0x3E,0x00,  # Tuesday   - 9am-2pm
+    0x00,0x3E,0x00,  # Wednesday - 9am-2pm
+    0x00,0x3E,0x00,  # Thursday  - 9am-2pm
+    0x00,0x3E,0x00,  # Friday    - 9am-2pm
+    0x00,0x00,0x00   # Saturday  - no access
 )
-```
 
-```powershell
 Set-ADUser -Identity tane.williams -LogonHours $hours
 ```
 
 ### How the Byte Array Works
 
-The logon hours are stored as a 21‑byte array (3 bytes per day × 7 days). Each bit represents one hour:
+Logon hours are a **21-byte array**: 3 bytes per day × 7 days, Sunday first.
+Each **bit** is one hour of that day, starting at midnight:
 
-| Bit Position | Hour |
+| Byte (per day) | Covers |
 |---|---|
-| 0 | 00:00–01:00 |
-| 1 | 01:00–02:00 |
-| ... | ... |
-| 23 | 23:00–00:00 |
+| Byte 1 | 00:00 – 08:00 (hours 0–7) |
+| Byte 2 | 08:00 – 16:00 (hours 8–15) |
+| Byte 3 | 16:00 – 00:00 (hours 16–23) |
 
-`0xFC` in binary is `11111100`, which means hours 2 through 7 are allowed and hours 0‑1 are denied. With three bytes per day, we get the full 24‑hour coverage.
+For 9am–2pm we need hours 9–13 set. Those live in **byte 2**, bits 1–5:
+
+```
+hour:  15 14 13 12 11 10  9  8
+bit:    7  6  5  4  3  2  1  0
+value:  0  0  1  1  1  1  1  0   = 0x3E
+```
+
+> **Time zone warning (important in NZ):** AD interprets the bits as **UTC**.
+> The ADUC GUI converts your local selection to UTC automatically — raw
+> PowerShell writes do not. New Zealand is UTC+12/+13, so the pattern above
+> lands ~12 hours offset from local time. For precise local-hour
+> restrictions, prefer the GUI method; use the PowerShell method when you
+> understand and account for the offset.
 
 ### Verification
-Check the user's current logon hours:
 
 ```powershell
-Get-ADUser -Identity tane.williams -Properties LogonHours | Select-Object -ExpandProperty LogonHours
+Get-ADUser -Identity tane.williams -Properties LogonHours |
+    Select-Object SamAccountName,
+        @{Name="LogonHours";Expression={[System.BitConverter]::ToString($_.LogonHours)}}
+```
+
+Expected: 21 bytes, with `3E` appearing as the middle byte of Monday–Friday:
+
+```
+00-00-00-00-3E-00-00-3E-00-00-3E-00-00-3E-00-00-3E-00-00-00-00
 ```
 
 ---
