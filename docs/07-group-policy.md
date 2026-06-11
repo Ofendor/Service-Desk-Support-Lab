@@ -144,11 +144,27 @@ environment tidy and secure. If an HR user logs in, the S: drive simply doesn't 
 
 ### Prerequisite – Create the shared folder
 
+### Prerequisite – Create the shared folder
+
 ```powershell
 New-Item -Path "C:\Shares\Sales" -ItemType Directory
+
+# Share permission (controls access OVER THE NETWORK)
 New-SmbShare -Name "SalesShare" -Path "C:\Shares\Sales" -FullAccess "SERVICEDESK\Sales_Group"
-Get-SmbShare -Name "SalesShare"
+
+# NTFS permission (controls access TO THE FILES) — without this, Sales
+# users get read-only: effective access = the MORE restrictive of the two.
+icacls "C:\Shares\Sales" /grant "SERVICEDESK\Sales_Group:(OI)(CI)M"
+
+# Verify both layers
+Get-SmbShare -Name "SalesShare" | Format-Table Name, Path
+icacls "C:\Shares\Sales"
 ```
+
+- **Share vs NTFS — the classic gotcha:** a share grant alone is not enough.
+- Effective access is the most restrictive combination of share + NTFS
+- permissions. `(OI)(CI)M` = Modify, inherited by all files (OI) and
+- subfolders (CI). This two-layer model is the backbone of Ticket 006.
 
 ![Creating a shared folder for Sales department: Disk S:/](../screenshots/29-creating-sales-shared-folder.png)
 *Creating a shared folder for Sales department: Disk S:/*
@@ -226,11 +242,12 @@ Finally, after rebooting, logging with William Tane credentials again and confir
 ![William Tane confirming 'S:' drive presence/](../screenshots/30-2-drive-mapping-working-tane-williams.png)
 *William Tane confirming 'S:' drive presence*
 
-## All GPO Links at a Glance
+## All GPO Links
 
 ```mermaid
 graph TD
-    DOMAIN[servicedesk.lab] --- PW[Password Policy]
-    DOMAIN --- LOCK[Account Lockout Policy]
+    DOMAIN[servicedesk.lab] --- DDP[Default Domain Policy<br>Password + Lockout settings]
+    DOMAIN --- WSUSGPO[WSUS Client Configuration]
     DOMAIN --- SALES_OU[Sales OU]
     SALES_OU --- DRIVE[Sales Drive Mapping]
+```
