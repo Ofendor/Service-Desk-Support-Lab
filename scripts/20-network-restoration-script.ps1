@@ -42,27 +42,43 @@ New-NetIPAddress -InterfaceAlias $InterfaceName -IPAddress $StaticIP `
 # 3. POINT DNS BACK TO THE DOMAIN CONTROLLER LOOPBACK
 # This ensures that the server will use its own DNS service, which is critical
 # for Active Directory functionality.
-Write-Output "[*] Re-binding Preferred DNS to internal Active Directory engine..."
-Set-DnsClientServerAddress -InterfaceAlias $InterfaceName -ServerAddresses $LocalDNS
+Write-Output "[*] Re-binding DNS to the local AD DNS service..."
+Set-DnsClientServerAddress -InterfaceAlias $InterfaceName -ServerAddresses $DNSServers
 
 # 4. REFRESH NETWORK RECORD CACHES
 # Flushing the DNS cache and re-registering the DNS records ensures
 # that the new network configuration is properly propagated and that the
 # server's identity is correctly advertised on the network.
-Write-Output "[*] Registering internal DNS environment records..."
+Write-Output "[*] Re-registering A records and AD SRV records..."
 ipconfig /flushdns
-ipconfig /registerdns
+ipconfig /registerdnsipconfig /flushdns | Out-Null
+ipconfig /registerdns | Out-Null
+Restart-Service Netlogon
 
 # 5. CYCLE WEB APP SERVICES TO RE-BIND TO THE NEW IP
 # The WSUS service relies on the underlying IIS web server to handle
 # incoming requests from client machines.
 # Restarting these services ensures that they will bind to the new
 # static IP address and be reachable
-Write-Output "[*] Restarting web app layer to listen on the local static network..."
+Write-Output "[*] Restarting IIS and WSUS to bind to $StaticIP..."
 Stop-Process -Name w3wp -Force -ErrorAction SilentlyContinue
 iisreset /restart
 Restart-Service WsusService -Force
 
-Write-Output "[+] Static network recovery routine completed successfully!"
+# 6. VERIFY — network state AND domain plumbing
+# This final section outputs the current network configuration, checks the DHCP state,
+# tests domain name resolution, and confirms that core AD services are running.
+Write-Output "[+] Restoration complete. Verification:"
 Write-Output "--------------------------------------------------------"
-Get-NetIPConfiguration -InterfaceAlias $InterfaceName | Select-Object InterfaceAlias, IPv4Address, IPv4DefaultGateway, DNSServer
+Get-NetIPConfiguration -InterfaceAlias $InterfaceName |
+    Select-Object InterfaceAlias, IPv4Address, IPv4DefaultGateway, DNSServer
+
+Write-Output "[*] DHCP state (expect 'Disabled'):"
+Get-NetIPInterface -InterfaceAlias $InterfaceName -AddressFamily IPv4 |
+    Select-Object InterfaceAlias, Dhcp
+
+Write-Output "[*] Domain resolution check:"
+Resolve-DnsName servicedesk.lab | Select-Object Name, IPAddress
+
+Write-Output "[*] Core AD services:"
+Get-Service Netlogon, NTDS, DNS | Select-Object Name, Status
