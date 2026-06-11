@@ -10,10 +10,13 @@ $dsrmPassword = Read-Host "Enter DSRM Password" -AsSecureString # DSRM password 
 Write-Host "=== Promoting to Domain Controller ==="
 Import-Module ADDSDeployment # Import the ADDSDeployment module to access the Install-ADDSForest cmdlet for promotion.
 
-Install-ADDSForest ` # Promotes the server to a domain controller and creates a new forest.
-    -DomainName $domainName ` # 
+# Promotes the server to a domain controller and creates a new forest.
+# Windows Server 2016 and later forest functional level. Adjust if using
+# older versions, but I recommend using the latest for new labs.
+Install-ADDSForest ` 
+    -DomainName $domainName `  
     -DomainNetbiosName $netbiosName `
-    -ForestMode "WinThreshold" ` # Windows Server 2016 and later forest functional level. Adjust if using older versions, but I recommend using the latest for new labs.
+    -ForestMode "WinThreshold" ` 
     -DomainMode "WinThreshold" `
     -InstallDns:$true `
     -CreateDnsDelegation:$false `
