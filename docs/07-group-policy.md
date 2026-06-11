@@ -142,7 +142,7 @@ Later in this lab, we will use this same shared folder for **help‑desk ticket 
 Only Sales users need the Sales share. HR and IT users won't see the drive, which keeps the
 environment tidy and secure. If an HR user logs in, the S: drive simply doesn't exist for them.
 
-### Prerequisite – Create the shared folder
+---
 
 ### Prerequisite – Create the shared folder
 
@@ -193,29 +193,22 @@ New-GPO -Name "Sales Drive Mapping"
 New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicedesk,DC=lab"
 ```
 
-If you get this message, no worries. It means your GUI set up has been successful.
-
-```powershell
-PS C:\Users\Administrator> New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicedesk,DC=lab"
-New-GPLink : The GPO named 'Sales Drive Mapping' is already linked to a Scope of Management with Path 'OU=Sales,DC=servicedesk,DC=lab'.
-At line:1 char:1
-+ New-GPLink -Name "Sales Drive Mapping" -Target "OU=Sales,DC=servicede ...
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : InvalidArgument: (Microsoft.Group...ewGPLinkCommand:NewGPLinkCommand) [New-GPLink], ArgumentException
-    + FullyQualifiedErrorId : UnableToCreateNewLink,Microsoft.GroupPolicy.Commands.NewGPLinkCommand
-
-PS C:\Users\Administrator> New-GPO -Name "Sales Drive Mapping"
-New-GPO : The command cannot be completed because a "Sales Drive Mapping" GPO already exists in the servicedesk.lab domain.
-Parameter name: Sales Drive Mapping
-At line:1 char:1
-+ New-GPO -Name "Sales Drive Mapping"
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : InvalidArgument: (Microsoft.Group...s.NewGpoCommand:NewGpoCommand) [New-GPO], ArgumentException
-    + FullyQualifiedErrorId : GpoWithNameAlreadyExists,Microsoft.GroupPolicy.Commands.NewGpoCommand
-```
+> **Note:** If `New-GPO` or `New-GPLink` returns an "already exists" error,
+> the GPO was already created and linked through the GUI — nothing to fix.
+> Confirm the link with:
+>
+> ```powershell
+> Get-GPInheritance -Target "OU=Sales,DC=servicedesk,DC=lab" |
+>     Select-Object -ExpandProperty GpoLinks
+> ```
 
 ## Final Verification Step
-After the previous steps. move to WIN11-01 Virtual Machine and log-in using William Tane credentials. The password is going to be the same as the WIN11-01 VM. DUe to Password Policy previously set up, a new password assignation screen will pop up. Assign a new password, log in an Force Group Policy update on a client.
+After the previous steps, move to the WIN11-01 Virtual Machine and log in with
+Tane Williams' credentials (the temporary password set during user creation).
+Because the account was created with "change password at next logon", Windows
+immediately prompts for a new password — which must now satisfy the domain
+password policy (8+ characters, complexity). Set it, log in, and force a
+Group Policy update.
 
 ![Loggin WIN11-01 with a Sales user credentials/](../screenshots/30-1-loggin-tane-williams.png)
 *Loggin WIN11-01 with a Sales user credentials*
@@ -235,7 +228,7 @@ ensures that settings which only apply at boot or login (like drive mappings) ar
 
 We then log in as a Sales user to confirm the drive appears, and log in as a non‑Sales user to
 confirm it does not. This is the same verification step you would perform before closing a ticket:
-*"I've made the change — now let me prove it works before I tell the user it's done."*
+*"I've made the change, now let me prove it works before I tell the user it's done."*
 
 Finally, after rebooting, logging with William Tane credentials again and confirm the **'S:/'** drive is visible.
 
