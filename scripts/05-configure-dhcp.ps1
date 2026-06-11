@@ -3,8 +3,12 @@
 # It defines the IP address range, subnet mask, 
 # default gateway, DNS server, and domain name for DHCP clients.
 #===============================================================================
-# NOTE: Your VM's adapter 1 should be set to "NAT Network" and name it "LabNet"
-#       General Options > IP at 192.168.10.0/24 > Enable DHCP 
+# NOTE: Your VM's adapter 1 should be set to "NAT Network" named "LabNet"
+#       (192.168.10.0/24). In VirtualBox: File > Preferences > Network >
+#       NAT Networks > LabNet > make sure "Enable DHCP" is UNTICKED.
+#       AKL-DC01 is the ONLY DHCP server on this network — VirtualBox's
+#       built-in DHCP must stay disabled or clients receive duplicate
+#       leases from two different servers.
 #===============================================================================
 # You can change this to something more descriptive if 
 # you have multiple scopes, but make sure to update it 
