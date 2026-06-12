@@ -193,6 +193,33 @@ http://support.servicedesk.lab:8081/scp
 
 ---
 
+## Step 8: Domain-Side Health Check
+Once everything is configured, this is the routine check run **from AKL-DC01**
+when anyone reports the ticketing system unreachable. It verifies the two
+things the domain side owns: name resolution and port reachability. If both
+pass, the fault is on the Debian/Docker side — check `sudo docker ps` there.
+
+```powershell
+.\24-osticket-healthcheck.ps1
+```
+
+Expected output on a healthy system:
+
+```
+[*] Checking DNS resolution for support.servicedesk.lab...
+[+] DNS OK: resolves to 192.168.10.20
+[*] Testing TCP port 8081 on support.servicedesk.lab...
+[+] PORT OK: 192.168.10.20:8081 is answering
+[+] Health check PASSED — osTicket reachable at http://support.servicedesk.lab:8081
+```
+
+> **Triage logic:** DNS fails → check the `support` A record and the DHCP
+> reservation on DC01. DNS OK but port fails → the problem is on the Debian
+> host (containers down, firewall). Both OK but the browser still fails →
+> client-side issue on the user's machine.
+
+---
+
 ## Scripts
 
 - [Debian Network Setup (Debian network setup reference)](../scripts/21-debian-network.sh)
