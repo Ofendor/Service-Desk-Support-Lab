@@ -225,6 +225,7 @@ Expected output on a healthy system:
 - [Debian Network Setup (Debian network setup reference)](../scripts/21-debian-network.sh)
 - [osTicket Docker Setup (Automated osTicket Docker deployment)](../scripts/22-osticket-docker-setup.sh)
 - [Support DNS Record (PowerShell)- Create the support DNS record on DC01](../scripts/23-setup-support-dns.ps1)
+- [osTicket Health Check (PowerShell) - Domain-side DNS + port verification](../scripts/24-osticket-healthcheck-DC01Server.ps1)
 
 ---
 
