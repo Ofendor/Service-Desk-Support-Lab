@@ -193,7 +193,9 @@ http://support.servicedesk.lab:8081/scp
 
 ---
 
-## Step 8: Domain-Side Health Check
+## Step 8: osTicket Health Check
+
+### Domain-Side Health Check: AKL-DC01 Server (Windows Server 2022)
 Once everything is configured, this is the routine check run **from AKL-DC01**
 when anyone reports the ticketing system unreachable. It verifies the two
 things the domain side owns: name resolution and port reachability. If both
@@ -217,6 +219,31 @@ Expected output on a healthy system:
 > reservation on DC01. DNS OK but port fails → the problem is on the Debian
 > host (containers down, firewall). Both OK but the browser still fails →
 > client-side issue on the user's machine.
+
+---
+
+### Debian-Side Check
+
+If the domain-side check fails at the port or HTTP layer — or you're already
+on the Debian host — run the local counterpart:
+
+```bash
+sudo bash 25-osticket-healthcheck.sh
+```
+
+Expected output on a healthy system:
+
+```
+[+] App container (osticket-osticket-1) is running
+[+] DB container (osticket-db-1) is running
+[+] Database engine is answering
+[+] HTTP OK: application responded 200
+[+] No recent errors in the application log
+[+] Health check PASSED — osTicket stack is healthy on this host.
+```
+
+Together, scripts 24 and 25 split the triage cleanly: **24 = can the domain
+reach it**, **25 = is the stack itself healthy**.
 
 ---
 
