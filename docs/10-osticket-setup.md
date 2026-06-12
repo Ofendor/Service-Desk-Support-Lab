@@ -253,6 +253,7 @@ reach it**, **25 = is the stack itself healthy**.
 - [osTicket Docker Setup (Automated osTicket Docker deployment)](../scripts/22-osticket-docker-setup.sh)
 - [Support DNS Record (PowerShell)- Create the support DNS record on DC01](../scripts/23-setup-support-dns.ps1)
 - [osTicket Health Check (PowerShell) - Domain-side DNS + port verification](../scripts/24-osticket-healthcheck-DC01Server.ps1)
+- [osTicket Health Check (Bash) - Container, database, and HTTP verification on Debian](../scripts/25-osticket-healthcheck-Debian.sh)
 
 ---
 
