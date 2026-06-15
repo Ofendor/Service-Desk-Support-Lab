@@ -1,7 +1,6 @@
 # osTicket Configuration – Agents, Users, Help Topics, SLAs & Email
 
 ![osTicket](https://img.shields.io/badge/osTicket-1.14.3-green?logo=opensourceinitiative&logoColor=white)
-![Gmail SMTP](https://img.shields.io/badge/Email-Gmail%20SMTP-EA4335?logo=gmail&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Operational-success)
 
 **Date:** June 2026
