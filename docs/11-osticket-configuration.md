@@ -82,7 +82,7 @@ Departments are kept aligned to the AD organisational structure. They act as **r
 | **Sales** | Routing target | |
 
 <!-- SCREENSHOT: Admin Panel → Agents → Agents (the agent roster) -->
-![osTicket agents](../screenshots/XX-osticket-agents.png)
+![osTicket agents](../screenshots/42-osticket-agents.png)
 *The agent roster: ostadmin (Support) plus the three IT-department agents.*
 
 ---
@@ -111,15 +111,15 @@ End users are the employees who receive support. They are grouped into **Organiz
 ### Organizations
 
 <!-- SCREENSHOT: Agent Panel → Users → Organizations → Sales (members listed) -->
-![Sales organization](../screenshots/XX-osticket-org-sales.png)
+![Sales organization](../screenshots/43-osticket-org-sales.png)
 *The Sales organization with its members.*
 
 <!-- SCREENSHOT: Agent Panel → Users → Organizations → HR (members listed) -->
-![HR organization](../screenshots/XX-osticket-org-hr.png)
+![HR organization](../screenshots/44-osticket-org-hr.png)
 *The HR organization.*
 
 <!-- SCREENSHOT: Agent Panel → Users → Organizations → IT (members listed) -->
-![IT organization](../screenshots/XX-osticket-org-it.png)
+![IT organization](../screenshots/45-osticket-org-it.png)
 *The IT organization.*
 
 ### User Directory
@@ -153,11 +153,11 @@ Help Topics are the request categories an end user picks when opening a ticket. 
 *(The default `Feedback` and `Billing` topics were disabled as irrelevant to an IT service desk.)*
 
 <!-- SCREENSHOT: Admin Panel → Manage → Help Topics (the topic list) -->
-![osTicket help topics](../screenshots/XX-osticket-help-topics.png)
+![osTicket help topics](../screenshots/46-osticket-help-topics.png)
 *Active help topics, each routed to Support with an attached SLA.*
 
 <!-- SCREENSHOT: Admin Panel → Manage → Help Topics → (any topic) → New ticket options tab, showing the SLA Plan dropdown -->
-![Help topic SLA wiring](../screenshots/XX-osticket-helptopic-sla.png)
+![Help topic SLA wiring](../screenshots/47-osticket-helptopic-sla.png)
 *Each help topic's "New ticket options" tab sets its department and SLA plan.*
 
 ---
@@ -174,7 +174,7 @@ Service Level Agreements set the response target. osTicket has SLAs **built in**
 Tickets are flagged **overdue** when the grace period is exceeded, and overdue alerts are left **enabled** to demonstrate SLA breach behaviour.
 
 <!-- SCREENSHOT: Admin Panel → Manage → SLA (the SLA plan list) -->
-![osTicket SLA plans](../screenshots/XX-osticket-sla-plans.png)
+![osTicket SLA plans](../screenshots/48-osticket-sla-plans.png)
 *The two custom SLA plans alongside the default.*
 
 ---
@@ -213,11 +213,11 @@ Outbound email runs through **Gmail SMTP**, so agents and users receive real not
 When a ticket is created and assigned, both parties are emailed automatically:
 
 <!-- SCREENSHOT: Gmail inbox showing the "Ticket Assigned to you" email (to Hiroshi) -->
-![Agent assignment email](../screenshots/XX-osticket-email-agent-alert.png)
+![Agent assignment email](../screenshots/49-osticket-email-agent-alert1.png)
 *The agent (Hiroshi) receives a "Ticket Assigned to you" notification.*
 
 <!-- SCREENSHOT: Gmail inbox showing the ticket-created email (to Tane) -->
-![User notification email](../screenshots/XX-osticket-email-user-notice.png)
+![User notification email](../screenshots/50-osticket-email-user-notice1.png)
 *The end user (Tane) receives confirmation that a ticket was opened on their behalf.*
 
 > **Plus-addressing in action:** the agent alert goes to `mne.kruger+hiroshi@gmail.com` and the user notice to `mne.kruger+tane@gmail.com` — both arrive in the same inbox, proving the unique-address routing works end to end.
