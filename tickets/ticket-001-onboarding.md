@@ -28,7 +28,7 @@ HR submitted a request via the Support Center to provision an Active Directory a
 | UPN | `emma.wilson@servicedesk.lab` |
 
 <!-- SCREENSHOT: osTicket ticket #734023 as submitted by James Kereama (client portal view) -->
-![Ticket 001 request](../screenshots/51-ticket001-osticket-request.png)
+![Ticket 001 request](../screenshots/51-ticket001-osticket-request-resolved.png)
 *The onboarding request as logged in osTicket by HR.*
 
 ---
@@ -45,15 +45,7 @@ At a managed services provider like Datacom, onboarding is one of the most frequ
 
 ## Resolution — PowerShell (AKL-DC01)
 
-### Step 1: Pre-check for duplicate account
-
-```powershell
-Get-ADUser -Filter {SamAccountName -eq "emma.wilson"} | Select-Object Name, Enabled
-```
-
-Returned nothing — safe to proceed.
-
-### Step 2: Create the account
+### Step 1: Create the account
 
 ```powershell
 $securePass = ConvertTo-SecureString "<TempPassword>" -AsPlainText -Force
@@ -76,15 +68,17 @@ New-ADUser `
 > `-Path` places Emma in the Sales OU so the Sales GPOs (including the S: drive mapping) apply automatically.
 > `-ChangePasswordAtLogon $true` forces her to set her own password at first logon, invalidating the temporary one the service desk used.
 
-### Step 3: Add to the Sales security group
+### Step 2: Add to the Sales security group
 
 ```powershell
 Add-ADGroupMember -Identity "Sales_Group" -Members "emma.wilson"
 ```
 
-> OU placement controls GPOs; group membership controls resource access (shared folders, applications). Both are required — one does not imply the other.
+OU placement controls GPOs; group membership controls resource access (shared folders, applications). Both are required — one does not imply the other.
 
-### Step 4: Verify
+---
+
+### Step 3: Verify
 
 ```powershell
 # Confirm account is enabled and in the correct OU
@@ -95,4 +89,47 @@ Get-ADUser -Identity emma.wilson -Properties Department, Title |
 Get-ADPrincipalGroupMembership -Identity emma.wilson | Select-Object Name
 ```
 
-**Result:**
+<!-- SCREENSHOT: PowerShell showing New-ADUser, Add-ADGroupMember, and verification output -->
+![Ticket 001 create and verify](../screenshots/51-ticket001-create-verify.png)
+*Account created and verified on AKL-DC01 — enabled, correct OU, Sales_Group membership.*
+
+---
+
+## Resolution — GUI Alternative (ADUC)
+
+The same result can be achieved through the GUI, useful for cross-checking or when PowerShell is unavailable:
+
+1. **Server Manager → Tools → Active Directory Users and Computers**
+2. Expand `servicedesk.lab` → click the **Sales** OU
+3. Right-click blank space → **New → User**
+4. First name: `Emma` / Last name: `Wilson` / User logon name: `emma.wilson` → **Next**
+5. Set the temporary password → tick **"User must change password at next logon"** → **Next → Finish**
+6. Double-click Emma → **General** tab → set Department: `Sales`, Title: `Sales Representative`
+7. **Member Of** tab → **Add** → type `Sales_Group` → **Check Names → OK → Apply**
+
+---
+
+## Ticket Closure
+
+Working the ticket as Hiroshi (Service Desk), the resolution note was posted to the requester and the ticket marked Resolved:
+
+> Kia ora James, Emma Wilson's account has been created (`emma.wilson`) in the Sales OU and added to Sales_Group. Temporary password set; she'll be prompted to change it at first login. She's all set for Monday. Regards, Hiroshi
+
+---
+
+## Timeline
+
+| Time | Event |
+|---|---|
+| 4:27 PM | HR (James Kereama) submits onboarding request #734023 |
+| — | Ticket claimed and assigned to Hiroshi Tanaka |
+| — | Duplicate pre-check run — clear |
+| — | Account created, added to Sales_Group, verified |
+| 4:46 PM | Resolution note posted to HR, ticket marked Resolved |
+
+---
+
+## Related
+
+- [User Onboarding Runbook](../runbooks/user-onboarding.md)
+  
