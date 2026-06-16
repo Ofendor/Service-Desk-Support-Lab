@@ -108,7 +108,7 @@ The same result can be achieved through the GUI, useful for cross-checking or wh
 
 Working the ticket as Hiroshi (Service Desk), the resolution note was posted to the requester and the ticket marked Resolved:
 
-> Kia ora James, Emma Wilson's account has been created (`emma.wilson`) in the Sales OU and added to Sales_Group. Temporary password set; she'll be prompted to change it at first login. She's all set for Monday. Regards, Hiroshi
+`Kia ora James, Emma Wilson's account has been created (`emma.wilson`) in the Sales OU and added to Sales_Group. Temporary password set; she'll be prompted to change it at first login. She's all set for Monday. Regards, Hiroshi`
 
 ---
 
