@@ -56,11 +56,10 @@ Anyone who wants to break into IT support, sharpen their Active Directory skills
 | VM | OS | Hostname | IP | Role |
 |---|---|---|---|---|
 | 1 | Windows Server 2022 | AKL-DC01 | 192.168.10.10 | Domain Controller, DNS, DHCP, WSUS |
-| 2 | Windows 11 Enterprise | WIN11-01 | DHCP | Domain-joined client |
-| 3 | Windows 11 Enterprise (optional) | WIN11-02 | DHCP | Domain-joined client |
-| 4 | Debian Linux | Debian-SRV | 192.168.10.20 | osTicket ticketing system |
+| 2 | Windows 11 Enterprise | WIN11-01 | DHCP (192.168.10.100–200) | Domain-joined client |
+| 3 | Debian Linux | Debian-SRV | 192.168.10.20 (reserved) | osTicket ticketing system |
 
-NOTE: we are using Windows 11 instead of Windows 10 because expired October 2025. I want you to use current software to be familiar with rather than using legacy. Be aware that some companies stiull rely on legacy software these days.
+NOTE: This lab uses Windows 11 instead of Windows 10, since Windows 10 reached end of support in October 2025. The goal is to stay current rather than rely on legacy software — though be aware many companies still run legacy systems in production.
 
 ---
 
@@ -70,13 +69,16 @@ Note: This is subject to changes
 
 ```mermaid
 graph TD
-    ROOT[Service-Desk-Support-Lab] --- SCRIPTS[scripts<br>PowerShell automation]
+    ROOT[Service-Desk-Support-Lab] --- SCRIPTS[scripts<br>PowerShell + Bash automation]
     ROOT --- SHOTS[screenshots<br>Configuration evidence]
     ROOT --- DOCS[docs<br>Step-by-step guides]
     ROOT --- BOOKS[runbooks<br>Help-desk procedures]
+    ROOT --- TICKETS[tickets<br>Ticket simulations]
+    ROOT --- DOCKER[docker<br>Compose file]
     ROOT --- DIAG[diagrams<br>Network topology]
     ROOT --- README[README.md]
 ```
+
 ---
 
 ## Documentation
@@ -92,7 +94,7 @@ graph TD
 - [Setting Logon hours restrictions for a single user](docs/08-logon-hours-restrictions.md)
 - [WSUS Patch Management Setup](docs/09-wsus-setup.md)
 - [osTicket Ticketing System Setup](docs/10-osticket-setup.md)
-- Help-desk Ticket Simulations (coming soon)
+- [osTicket Configuration – Agents, Users, SLAs & Email](docs/11-osticket-configuration.md)
 - Runbooks (coming soon)
 
 ## PowerShell Scripts
@@ -121,6 +123,7 @@ graph TD
 | [19-wsus-sync-bottleneck-fix.ps1](scripts/19-wsus-sync-bottleneck-fix.ps1) | Fix frozen WSUS sync and database deadlocks |
 | [20-network-restoration-script.ps1](scripts/20-network-restoration-script.ps1) | Restore static IP after NAT switch |
 | [23-setup-support-dns.sh](scripts/23-setup-support-dns.ps1) | Create DNS record for support.servicedesk.lab |
+| [24-osticket-healthcheck-DC01Server.ps1](scripts/24-osticket-healthcheck-DC01Server.ps1) | Domain-side osTicket health check (DNS + port + HTTP) |
 
 ---
 
@@ -130,7 +133,25 @@ graph TD
 |---|---|
 | [21-debian-network.sh](scripts/21-debian-network.sh) | Debian network setup reference |
 | [22-osticket-docker-setup.sh](scripts/22-osticket-docker-setup.sh) | Automated osTicket Docker deployment |
+| [25-osticket-healthcheck-Debian.sh](scripts/25-osticket-healthcheck-Debian.sh) | Debian-side osTicket health check (containers + DB + HTTP) |
 
+---
+
+## Help-Desk Ticket Simulations
+
+Each ticket is a real request logged in osTicket, worked on the domain by the service desk analyst (Hiroshi Tanaka), then resolved and documented with evidence.
+
+| Ticket | Scenario | Status |
+|---|---|---|
+| [001 – Onboarding](tickets/ticket-001-onboarding.md) | Create AD account for a new Sales hire | ✅ Resolved |
+| 002 – Password Reset | Reset a user's forgotten password | 🔜 |
+| 003 – Account Unlock | Unlock a locked-out account | 🔜 |
+| 004 – Department Transfer | Move a user between departments | 🔜 |
+| 005 – Offboarding | Disable and archive a leaver's account | 🔜 |
+| 006 – Shared Folder Access | Diagnose and fix NTFS/share permissions | 🔜 |
+| 007 – Bulk Logon Hours | Apply department-wide logon restrictions | 🔜 |
+| 008 – WSUS Patch Compliance | Approve and verify updates | 🔜 |
+| 010 – Software Deployment | Deploy software via Group Policy | 🔜 |
 
 ---
 
@@ -140,21 +161,15 @@ graph TD
 graph TD
     HOST[VirtualBox Host] --- NET[ServicedeskLab NAT Network<br>192.168.10.0/24]
 
-    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>25 GB<br>.10 Static]
+    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>.10 Static]
     DC01 --- AD[AD DS / DNS / DHCP]
     DC01 --- WSUS[WSUS Patch Management]
     DC01 --- FS[File Shares<br>NTFS & Share Perms]
-    DC01 --- GPO[Group Policy<br>Password & Lockout]
+    DC01 --- GPO[Group Policy]
 
-    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>30 GB<br>DHCP]
+    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>DHCP .100-.200]
     W11 --- DOMAIN[Domain Joined]
-    W11 --- INTUNE[Intune Enrolled]
 
-    NET --- DEBIAN[Debian Linux<br>5-10 GB<br>192.168.10.20]
-    DEBIAN --- OSTICKET[osTicket<br>:8081]
-
-    NET --- W11B[WIN11-02<br>Windows 11 Enterprise<br>30 GB<br>DHCP<br>Optional]
-
-    CLOUD[Cloud Services] --- AZURE[Azure AD / Intune Trial]
-    CLOUD --- M365[Microsoft 365 Trial<br>Optional]
+    NET --- DEBIAN[Debian Linux<br>.20 Reserved]
+    DEBIAN --- OSTICKET[osTicket :8081]
 ```
