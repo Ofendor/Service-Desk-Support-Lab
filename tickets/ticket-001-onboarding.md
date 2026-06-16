@@ -16,6 +16,11 @@
 ## Request
 
 HR submitted a request via the Support Center to provision an Active Directory account for a new Sales hire starting Monday.
+Onboarding is one of the most frequent ticket types. Getting it wrong has real consequences:
+
+- **Wrong OU** → department GPOs don't apply (e.g. the Sales S: drive mapping won't work).
+- **Missing group** → no access to department shared resources on day one.
+- **No forced password change** → the service desk retains a working credential, a security gap.
 
 > *"Kia Ora Hiroshi, Please create an AD account for Emma Wilson. She starts Monday in the Sales department. Regards, James Kereama - HR Department"*
 
@@ -30,16 +35,6 @@ HR submitted a request via the Support Center to provision an Active Directory a
 <!-- SCREENSHOT: osTicket ticket #734023 as submitted by James Kereama (client portal view) -->
 ![Ticket 001 request](../screenshots/51-ticket001-osticket-request-resolved.png)
 *The onboarding request as logged in osTicket by HR.*
-
----
-
-## Why This Matters at an MSP
-
-At a managed services provider like Datacom, onboarding is one of the most frequent ticket types. Getting it wrong has real consequences:
-
-- **Wrong OU** → department GPOs don't apply (e.g. the Sales S: drive mapping won't work).
-- **Missing group** → no access to department shared resources on day one.
-- **No forced password change** → the service desk retains a working credential, a security gap.
 
 ---
 
