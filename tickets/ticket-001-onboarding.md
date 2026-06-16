@@ -22,7 +22,7 @@ Onboarding is one of the most frequent ticket types. Getting it wrong has real c
 - **Missing group** → no access to department shared resources on day one.
 - **No forced password change** → the service desk retains a working credential, a security gap.
 
-> *"Kia Ora Hiroshi, Please create an AD account for Emma Wilson. She starts Monday in the Sales department. Regards, James Kereama - HR Department"*
+`*"Kia Ora Hiroshi, Please create an AD account for Emma Wilson. She starts Monday in the Sales department. Regards, James Kereama - HR Department"*`
 
 | Field | Detail |
 |---|---|
