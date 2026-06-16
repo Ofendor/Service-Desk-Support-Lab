@@ -60,8 +60,8 @@ New-ADUser `
     -Enabled $true
 ```
 
-> `-Path` places Emma in the Sales OU so the Sales GPOs (including the S: drive mapping) apply automatically.
-> `-ChangePasswordAtLogon $true` forces her to set her own password at first logon, invalidating the temporary one the service desk used.
+`-Path` places Emma in the Sales OU so the Sales GPOs (including the S: drive mapping) apply automatically.
+`-ChangePasswordAtLogon $true` forces her to set her own password at first logon, invalidating the temporary one the service desk used.
 
 ### Step 2: Add to the Sales security group
 
@@ -118,7 +118,6 @@ Working the ticket as Hiroshi (Service Desk), the resolution note was posted to 
 |---|---|
 | 4:27 PM | HR (James Kereama) submits onboarding request #734023 |
 | — | Ticket claimed and assigned to Hiroshi Tanaka |
-| — | Duplicate pre-check run — clear |
 | — | Account created, added to Sales_Group, verified |
 | 4:46 PM | Resolution note posted to HR, ticket marked Resolved |
 
