@@ -22,6 +22,9 @@
 
 Author: Emilio Mardones
 
+Kia ora,
+Welcome to my Service Desk Support lab! 
+
 ---
 
 ## About the lab
