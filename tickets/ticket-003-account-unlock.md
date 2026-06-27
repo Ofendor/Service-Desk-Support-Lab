@@ -4,7 +4,7 @@
 ![Priority](https://img.shields.io/badge/Priority-High-orange)
 ![Status](https://img.shields.io/badge/Status-Resolved-success)
 
-**Ticket ID:** #XXXXXX (osTicket)
+**Ticket ID:** #760626 (osTicket)
 **Date:** June 2026
 **Requester:** Tane Williams (Sales)
 **Assigned To:** Hiroshi Tanaka (Service Desk)
