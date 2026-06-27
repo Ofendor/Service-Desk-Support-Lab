@@ -147,8 +147,8 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 | Ticket | Scenario | Status |
 |---|---|---|
 | [001 – Onboarding](tickets/ticket-001-onboarding.md) | Create AD account for a new Sales hire | ✅ Resolved |
-| 002 – Password Reset | Reset a user's forgotten password | ✅ Resolved |
-| 003 – Account Unlock | Unlock a locked-out account | ✅ Resolved |
+| [002 – Password Reset](tickets/ticket-002-password-reset.md) | Reset a user's forgotten password | ✅ Resolved |
+| [003 – Account Unlock](tickets/ticket-003-account-unlock.md) | Unlock a locked-out account | ✅ Resolved |
 | 004 – Department Transfer | Move a user between departments | 🔜 |
 | 005 – Offboarding | Disable and archive a leaver's account | 🔜 |
 | 006 – Shared Folder Access | Diagnose and fix NTFS/share permissions | 🔜 |
