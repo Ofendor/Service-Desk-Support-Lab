@@ -15,14 +15,14 @@
 
 ## Scenario
 
-It's the start of the shift. A new ticket lands in the Support queue, flagged **High** priority against the *Access Issue* topic — so the 4-hour SLA clock is already running. The Sales team has logged it on Tane's behalf:
+It's the start of the shift. A new ticket lands in the Support queue, flagged **High** priority against the *Access Issue* topic, so the 4-hour SLA clock is already running. The Sales team has logged it on Tane's behalf:
 
 > **#103534 — User can't access account**
 > *"Good morning, Tane forgot his password and can't log in. Please force a change at next logon. Thank you, Sales Team."*
 
 The ticket is **unassigned**, sitting in the shared queue. As the analyst on shift (Hiroshi), I claim it, confirm what's actually wrong, and resolve it.
 
-<!-- SCREENSHOT: osTicket Open queue showing #18e6df, High priority, unassigned -->
+<!-- SCREENSHOT: osTicket Open queue showing #103534, High priority, unassigned -->
 ![Ticket 002 in the queue](../screenshots/53-ticket002-osticket-queue.png)
 *The ticket arrives in the Open queue — High priority (Access Issue → Urgent–4h SLA), waiting to be claimed.*
 
