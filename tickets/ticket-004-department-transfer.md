@@ -130,20 +130,11 @@ Get-ADPrincipalGroupMembership -Identity sarah.thompson | Select-Object Name
 
 | Time | Event |
 |---|---|
-| T+0 | HR submits transfer request |
+| T+0 | Mei Lin manager at HR submits transfer request for Sarah Thompson |
 | — | Hiroshi claims the ticket; captures before state |
 | — | Group membership swapped, OU moved, department updated |
 | — | Verified: HR OU, HR_Group, Department = HR |
 | — | Resolution note posted, ticket resolved |
-
----
-
-## Lessons Learned
-
-- A transfer is **two** operations: group membership *and* OU. Doing one without the other leaves the user half-moved.
-- Always **remove** the old group, not just add the new one — least privilege prevents access creep.
-- `Move-ADObject` needs the full DN; resolve it with `(Get-ADUser <name>).DistinguishedName`.
-- The `Department` attribute doesn't change automatically on an OU move — set it explicitly.
 
 ---
 
