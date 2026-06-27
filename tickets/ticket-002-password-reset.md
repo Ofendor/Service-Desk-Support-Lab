@@ -17,8 +17,10 @@
 
 It's the start of the shift. A new ticket lands in the Support queue, flagged **High** priority against the *Access Issue* topic, so the 4-hour SLA clock is already running. The Sales team has logged it on Tane's behalf:
 
-> **#103534 — User can't access account**
-> *"Good morning, Tane forgot his password and can't log in. Please force a change at next logon. Thank you, Sales Team."*
+**#103534 — User can't access account**
+```
+*"Good morning, Tane forgot his password and can't log in. Please force a change at next logon. Thank you, Sales Team."*
+```
 
 The ticket is **unassigned**, sitting in the shared queue. As the analyst on shift (Hiroshi), I claim it, confirm what's actually wrong, and resolve it.
 
