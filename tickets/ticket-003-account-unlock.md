@@ -142,8 +142,8 @@ A resolution note was posted to the user and the ticket marked Resolved:
 | Time | Event |
 |---|---|
 | T+0 | Tane locks himself out after 5 failed attempts (policy fires) |
-| T+0 | Ticket logged (High priority, Access Issue) |
-| — | Hiroshi claims the ticket; confirms `LockedOut = True` |
+| T+0 | Ticket logged by Priya (High priority, Access Issue) |
+| — | Olivia claims the ticket; confirms `LockedOut = True` |
 | — | Account unlocked with `Unlock-ADAccount`; verified `LockedOut = False` |
 | — | Login confirmed on WIN11-01 |
 | — | Resolution note posted, ticket resolved (within 4h SLA) |
