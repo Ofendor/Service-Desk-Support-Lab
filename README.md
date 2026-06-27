@@ -150,7 +150,7 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 | [002 – Password Reset](tickets/ticket-002-password-reset.md) | Reset a user's forgotten password | ✅ Resolved |
 | [003 – Account Unlock](tickets/ticket-003-account-unlock.md) | Unlock a locked-out account | ✅ Resolved |
 | [004 – Department Transfer](tickets/ticket-004-department-transfer.md) | Move a user between departments | ✅ Resolved |
-| 005 – Offboarding | Disable and archive a leaver's account | 🔜 |
+|[005 – Offboarding Employee from company AD](tickets/ticket-005-offoarding-employee.md) | Disable and archive a leaver's account | ✅ Resolved |
 | 006 – Shared Folder Access | Diagnose and fix NTFS/share permissions | 🔜 |
 | 007 – Bulk Logon Hours | Apply department-wide logon restrictions | 🔜 |
 | 008 – WSUS Patch Compliance | Approve and verify updates | 🔜 |
