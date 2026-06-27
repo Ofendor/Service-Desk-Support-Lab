@@ -19,14 +19,14 @@ It's the start of the shift. A new ticket lands in the Support queue, flagged **
 
 **#103534 — User can't access account**
 ```
-*"Good morning, Tane forgot his password and can't log in. Please force a change at next logon. Thank you, Sales Team."*
+Good morning, Tane forgot his password and can't log in. Please force a change at next logon. Thank you, Sales Team.
 ```
 
 The ticket is **unassigned**, sitting in the shared queue. As the analyst on shift (Hiroshi), I claim it, confirm what's actually wrong, and resolve it.
 
 <!-- SCREENSHOT: osTicket Open queue showing #103534, High priority, unassigned -->
 ![Ticket 002 in the queue](../screenshots/53-ticket002-osticket-queue.png)
-*The ticket arrives in the Open queue — High priority (Access Issue → Urgent–4h SLA), waiting to be claimed.*
+*The ticket arrives in the Open queue and shows High priority (Access Issue → Urgent–4h SLA), waiting to be claimed.*
 
 <!-- SCREENSHOT: osTicket #103534 thread — request and resolution -->
 ![Ticket 002 request](../screenshots/52-ticket002-osticket-request.png)
@@ -41,7 +41,7 @@ The ticket is **unassigned**, sitting in the shared queue. As the analyst on shi
 
 ---
 
-## Why This Matters at an MSP
+## Why This Matters at an MSP?
 
 Password resets are the single highest-volume ticket at any service desk. Two things make a reset *correct* rather than just functional:
 
@@ -50,11 +50,11 @@ Password resets are the single highest-volume ticket at any service desk. Two th
 
 ---
 
-## Resolution — PowerShell (AKL-DC01)
+## Resolution — PowerShell (Logging in AKL-DC01)
 
 ### Step 1: Confirm the account state
 
-First, rule out a lockout — a forgotten password and a locked-out account are different problems with different fixes.
+First, a forgotten password and a locked-out account are different problems with different fixes.
 
 ```powershell
 Get-ADUser -Identity tane.williams -Properties LockedOut, Enabled, PasswordLastSet |
@@ -64,7 +64,7 @@ Get-ADUser -Identity tane.williams -Properties LockedOut, Enabled, PasswordLastS
 Confirmed `Enabled = True`, `LockedOut = False` — a genuine forgotten password, not a lockout.
 
 <!-- SCREENSHOT: PowerShell pre-check + reset + force-change commands -->
-![Ticket 002 reset](../screenshots/54-ticket002-ps-reset.png)
+![Ticket 002 reset](../screenshots/53-ticket002-ps-reset.png)
 *Account state confirmed, password reset, and forced change applied on AKL-DC01.*
 
 ### Step 2: Reset the password
@@ -97,7 +97,7 @@ Get-ADUser -Identity tane.williams -Properties PasswordLastSet, PasswordExpired,
 **Result:** `pwdLastSet = 0` (so `MustChangeAtLogon = True`), `PasswordExpired = True`, and `PasswordLastSet` is blank — all three are the correct signature of an armed forced-change. There is no "last set" timestamp until the user sets their own password.
 
 <!-- SCREENSHOT: PowerShell verification — pwdLastSet = 0 -->
-![Ticket 002 verify](../screenshots/55-ticket002-ps-verify.png)
+![Ticket 002 verify](../screenshots/54-ticket002-ps-verify.png)
 *Verification confirms the forced change is armed (pwdLastSet = 0).*
 
 ---
@@ -113,16 +113,16 @@ The same result through the GUI:
 
 ---
 
-## End-to-End Test (WIN11-01)
+## Tane Williams (End-to-End) Test on WIN11-01 VM
 
 The real proof is at the login screen. Logged into WIN11-01 as `tane.williams` with the temporary password — Windows immediately blocked sign-in and required a new password, confirming both the reset and the forced change worked.
 
 <!-- SCREENSHOT: WIN11-01 login as tane.williams with temp password -->
-![Ticket 002 login](../screenshots/56-ticket002-win11-login.png)
+![Ticket 002 login](../screenshots/55-ticket002-win11-login.png)
 *Signing in to WIN11-01 with the temporary password.*
 
 <!-- SCREENSHOT: WIN11-01 "password must be changed before signing in" prompt -->
-![Ticket 002 forced change](../screenshots/57-ticket002-win11-forcechange.png)
+![Ticket 002 forced change](../screenshots/56-ticket002-win11-forcechange.png)
 *Windows enforces the password change before allowing sign-in — the forced-change confirmed end to end.*
 
 ---
@@ -131,11 +131,9 @@ The real proof is at the login screen. Logged into WIN11-01 as `tane.williams` w
 
 A resolution note was posted to the requester and the ticket marked Resolved:
 
-> Kia ora, we have reset Tane's password and forced a change at next logon. He can log in using the temporary password first, then create a new one of his own to continue using his workstation. Please verify this works and let us know if there's anything further you need. — Hiroshi Tanaka, IT Team
+`Kia ora, we have reset Tane's password and forced a change at next logon. He can log in using the temporary password first, then create a new one of his own to continue using his workstation. Please verify this works and let us know if there's anything further you need. — Hiroshi Tanaka, IT Team`
 
-<!-- SCREENSHOT: osTicket #103534 marked Resolved with the agent reply -->
-![Ticket 002 resolved](../screenshots/58-ticket002-osticket-resolved.png)
-*Ticket #103534 resolved in osTicket within the 4-hour SLA.*
+Ticket marked as `Solved`.
 
 ---
 
@@ -149,16 +147,6 @@ A resolution note was posted to the requester and the ticket marked Resolved:
 | — | Password reset, forced change at next logon applied and verified |
 | — | End-to-end login test on WIN11-01 — forced change confirmed |
 | 11:53 AM | Resolution note posted, ticket resolved (well within the 4h SLA) |
-
----
-
-## Lessons Learned
-
-- Use `Set-ADAccountPassword -Reset` for a forgotten password — it doesn't require the old password.
-- **Always** pair a reset with `-ChangePasswordAtLogon $true`; otherwise the service desk retains a working credential.
-- `ChangePasswordAtLogon` is write-only — verify the result by reading `pwdLastSet` (0 = must change at next logon), not by trying to read the parameter back.
-- Confirm the account isn't *locked* first — a lockout (Ticket 003) is a different fix, and a reset alone won't clear it.
-- In production, verify the user's identity and deliver the temporary password through a separate, out-of-band channel before resetting.
 
 ---
 
