@@ -17,7 +17,7 @@
 
 A High-priority ticket lands in the Support queue against the *Access Issue* topic — the 4-hour SLA clock is running. Tane can't get into his workstation:
 
-> **User can't access account**
+**User can't access account**
 `Our team member, Tane Williams, is locked out of his account after entering his password incorrectly. The screen displays the message: "The referenced account is currently locked out and may not be logged on to.`
 `Could you please investigate and assist him with regaining access?`
 
