@@ -35,11 +35,16 @@ This is the priority action — it blocks all access at once. On involuntary dep
 ## Step 3: Record, Then Remove Group Access
 
 ```powershell
-# Capture for the audit trail BEFORE removing
+# Record current group membership first (for reference / handover)
 Get-ADPrincipalGroupMembership -Identity <username> | Select-Object Name
 
-Remove-ADGroupMember -Identity "<Dept>_Group" -Members "<username>" -Confirm:$false
+# Remove from every group except the built-in primary (Domain Users)
+Get-ADPrincipalGroupMembership -Identity <username> |
+    Where-Object { $_.Name -ne "Domain Users" } |
+    ForEach-Object { Remove-ADGroupMember -Identity $_ -Members <username> -Confirm:$false }
 ```
+
+The loop removes *all* group memberships, not just the department group — a user often belongs to several. `Domain Users` is the primary group and can't be removed this way.
 
 ---
 
