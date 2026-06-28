@@ -85,3 +85,4 @@ Get-ADUser -Identity <username> -Properties Enabled |
 - Revoke access immediately; do the tidy-up (groups, OU) right after.
 - Always record group membership before stripping it.
 - GUI: ADUC → **Disable Account**, remove groups (Member Of), **Move…** to Disabled Users.
+- In a production environment, offboarding also typically includes resetting the password, terminating active sessions, and forwarding the mailbox to a manager. These aren't applicable in this AD-only lab but are noted for completeness.
