@@ -20,15 +20,15 @@ HR has finalised the organisation's working-hours policy for the new financial y
 The full requirement HR submitted:
 
 **Task – Apply department working hours (HR → IT)**
-`Hi IT, please configure logon-hour restrictions across all departments per our new policy below. Staff should only be able to sign in during their assigned hours. A few approved WFH staff in each team also work a weekend shift — please include those. Let us know once it's applied. Thanks, HR.`
+Hi IT, please configure logon-hour restrictions across all departments per our new policy below. Staff should only be able to sign in during their assigned hours. A few approved WFH staff in each team also work a weekend shift — please include those. Let us know once it's applied. Thanks, HR."*
 
-`| Department | Core hours (Mon–Fri) | WFH weekend staff | Weekend shift |`
-`|---|---|---|---|`
-`| **Sales** | 7:00am – 3:00pm | Tane Williams, Priya Patel | Saturday 8:00am – 1:00pm |`
-`| **HR** | 9:00am – 5:00pm | Mei Lin, Aroha Henare | Saturday 10:00am – 2:00pm |`
-`| **IT** | 6:00am – 4:00pm | Hiroshi Tanaka, Raj Singh | Saturday 5:00pm – Sunday 5:00am (overnight) |`
+| Department | Core hours (Mon–Fri) | WFH weekend staff | Weekend shift |
+|---|---|---|---|
+| **Sales** | 7:00am – 3:00pm | Tane Williams, Priya Patel | Saturday 8:00am – 1:00pm |
+| **HR** | 9:00am – 5:00pm | Mei Lin, Aroha Henare | Saturday 10:00am – 2:00pm |
+| **IT** | 6:00am – 4:00pm | Hiroshi Tanaka, Raj Singh | Saturday 5:00pm – Sunday 5:00am (overnight) |
 
-`Applying this by hand across 15 users — each with a department base schedule, and 6 of them with an additional weekend block — would be slow and error-prone. As the IT analyst handling the task (Hiroshi), I script it so every account in scope receives exactly the right schedule consistently.`
+Applying this by hand across 15 users — each with a department base schedule, and 6 of them with an additional weekend block — would be slow and error-prone. As the IT analyst handling the task (Hiroshi), I script it so every account in scope receives exactly the right schedule consistently.
 
 <!-- SCREENSHOT: osTicket task as submitted by HR -->
 ![Ticket 007 request](../screenshots/XX-ticket007-osticket-request.png)
