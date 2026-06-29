@@ -4,7 +4,7 @@
 ![Priority](https://img.shields.io/badge/Priority-Normal-green)
 ![Status](https://img.shields.io/badge/Status-Resolved-success)
 
-**Ticket ID:** #XXXXXX (osTicket)
+**Ticket ID:** #878641 (osTicket)
 **Date:** June 2026
 **Requester:** HR Department
 **Assigned To:** Hiroshi Tanaka (IT / Service Desk)
@@ -35,19 +35,25 @@ Applying this by hand across 15 users — each with a department base schedule, 
 *The working-hours task as logged by HR for the IT team.*
 
 ---
+## NOTE:
+For this task we are going to use script 16
+- [Bulk Department Logon Hours](../scripts/16-set-department-logon-hours.ps1)
+Import the script into your DC01 Server VM and run it via PowerShell ISE as Administrator Mode.
 
-## Why This Matters at an MSP
+---
+
+## Why This Matters at an MSP?
 
 This task is about **automation at scale with real-world complexity** — exactly the kind of work that separates a button-clicker from an analyst:
 
-- **Bulk operations beat per-user clicking.** One OU-scoped script applies the correct schedule to every user in a department identically. Manual entry across 15 users invites missed accounts and inconsistent settings.
-- **Conditional logic per user.** Not everyone gets the same rule — the script applies a department base to all, then *adds* a weekend block only to the named WFH staff. This mirrors how real policies actually work.
-- **Edge cases must be handled.** The IT weekend shift crosses both midnight *and* the week boundary (Saturday night into Sunday morning). The schedule math has to handle the wrap correctly.
+- **Bulk operations beat per-user clicking.** One OU-scoped script applies the correct schedule to every user in a department identically. Manual entry across 15 users invites missed accounts and inconsistent settings (no imagine how it is for a company with 1000s of workers).
+- **Conditional logic per user.** Not everyone gets the same rule — the script applies a department base to all, then *adds* a weekend block only to the named Work From Home staff. This mirrors how real policies actually work.
+- **Edge cases must be handled.** The IT weekend shift crosses both midnight *and* the week boundary (Saturday night into Sunday morning). The schedule math has to handle the wrap correctly. This is a good example to put in practice.
 - **Consistency is a security property.** A policy applied to "most" of a department leaves gaps. Scripting guarantees full, accurate coverage.
 
 ---
 
-## Key Technical Concept: logonHours Is Stored in UTC
+## Key to know before running the script: logonHours Is Stored in UTC
 
 Active Directory stores the `logonHours` attribute in **UTC**, not local time. If local hours are written directly, the ADUC grid displays them shifted by the local UTC offset — on a New Zealand domain (UTC+12 in winter) the schedule appears ~12 hours out and wraps across day boundaries (an 8am–6pm rule shows as an overnight, wrong-day block).
 
@@ -57,7 +63,7 @@ This script **converts the specified local hours to UTC before writing**, using 
 
 ---
 
-## Resolution — PowerShell (AKL-DC01)
+## Start the task — PowerShell (from AKL-DC01)
 
 ### Step 1: Allow the script to run (session-scoped)
 
@@ -66,6 +72,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 > `-Scope Process` applies only to this PowerShell window and reverts on close — it doesn't weaken the server's standing policy.
+
+---
 
 ### Step 2: Clear any existing logon hours (clean slate)
 
@@ -77,9 +85,12 @@ Get-ADUser -Filter * -SearchBase "DC=servicedesk,DC=lab" | ForEach-Object {
 
 Confirmed across departments that all users returned to "always permitted" before applying the new policy.
 
+![Ticket 007 cleared baseline](../screenshots/76-ticket007-sales-department-current-logon-hours.png)
 <!-- SCREENSHOT: clear command run; an HR user showing all-permitted baseline -->
 ![Ticket 007 cleared baseline](../screenshots/77-ticket007-cleared-baseline-hr-user.png)
-*Clean slate: logon hours cleared domain-wide before applying the new schedules.*
+*Clean slate: logon hours will look blue for all departments before applying the new schedules.*
+
+---
 
 ### Step 3: Apply the full schedule across all departments
 
@@ -89,9 +100,12 @@ Confirmed across departments that all users returned to "always permitted" befor
 
 The script applies each department's weekday base to all its users, then adds the weekend block to the named WFH staff. Output confirms all three departments processed, with the Saturday shift flagged for the six WFH users.
 
+
 <!-- SCREENSHOT: script output for all departments + an IT night-shift grid -->
 ![Ticket 007 script output](../screenshots/78-ticket007-script-output-and-it-nightshift.png)
 *All departments processed. The IT night-shift user shows the Saturday-evening block wrapping into Sunday morning.*
+
+---
 
 ### Step 4: Verify across all three schedule types
 
@@ -125,7 +139,7 @@ See [16-set-department-logon-hours.ps1](../scripts/16-set-department-logon-hours
 
 ## Ticket Closure
 
-> Kia ora HR, the working-hours policy has been applied across all three departments. Each team now has its core weekday hours enforced, and the approved WFH staff have their weekend shifts added — including the IT overnight Saturday-to-Sunday shift. Verified in Active Directory across all schedule types. Note: AD stores logon hours in UTC, so the console may display times offset from local; the enforced hours are correct for New Zealand time. Let us know if any schedules need adjusting. Regards, Hiroshi (IT)
+`Kia ora HR, the working-hours policy has been applied across all three departments. Each team now has its core weekday hours enforced, and the approved WFH staff have their weekend shifts added — including the IT overnight Saturday-to-Sunday shift. Verified in Active Directory across all schedule types. Note: AD stores logon hours in UTC, so the console may display times offset from local; the enforced hours are correct for New Zealand time. Let us know if any schedules need adjusting. Regards, Hiroshi (IT)`
 
 <!-- SCREENSHOT: osTicket resolved with the agent reply -->
 ![Ticket 007 resolved](../screenshots/XX-ticket007-osticket-resolved.png)
