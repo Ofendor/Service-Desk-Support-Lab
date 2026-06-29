@@ -142,7 +142,7 @@ See [16-set-department-logon-hours.ps1](../scripts/16-set-department-logon-hours
 `Kia ora HR, the working-hours policy has been applied across all three departments. Each team now has its core weekday hours enforced, and the approved WFH staff have their weekend shifts added — including the IT overnight Saturday-to-Sunday shift. Verified in Active Directory across all schedule types. Note: AD stores logon hours in UTC, so the console may display times offset from local; the enforced hours are correct for New Zealand time. Let us know if any schedules need adjusting. Regards, Hiroshi (IT)`
 
 <!-- SCREENSHOT: osTicket resolved with the agent reply -->
-![Ticket 007 resolved](../screenshots/XX-ticket007-osticket-resolved.png)
+![Ticket 007 resolved](../screenshots/77-ticket007-osticket-resolved.png)
 *Task resolved in osTicket.*
 
 ---
@@ -156,17 +156,6 @@ See [16-set-department-logon-hours.ps1](../scripts/16-set-department-logon-hours
 | — | Bulk script applied across all 3 departments with NZ UTC offset |
 | — | Verified all three schedule types in ADUC (weekday, weekend, overnight) |
 | — | Resolution note posted to HR, task resolved |
-
----
-
-## Lessons Learned
-
-- **Script bulk changes with conditional logic** — a single OU-scoped script can apply a department base to everyone *and* layer per-user exceptions (weekend WFH) on top, consistently.
-- **logonHours is stored in UTC.** On a non-UTC domain the ADUC grid shows configured hours offset by the local difference. Convert local→UTC before writing; expose the offset as a parameter so the script is portable across timezones.
-- **Overnight / cross-midnight shifts** must be written as two segments and wrapped across the week boundary — the Saturday-night-to-Sunday-morning case is the proof.
-- **`Set-ADUser` has no `-LogonHours` parameter** — write the byte array with `-Replace @{logonHours = $bytes}`.
-- **Add error handling to bulk scripts** — without `-ErrorAction Stop` + try/catch, a failed user still prints "applied", hiding the problem.
-- **Clear before re-applying** — `Set-ADUser -Clear logonHours` resets to always-permitted, giving a clean slate and avoiding leftover bits from prior runs.
 
 ---
 
