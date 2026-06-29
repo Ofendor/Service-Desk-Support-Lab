@@ -31,7 +31,7 @@ Hi IT, please configure logon-hour restrictions across all departments per our n
 Applying this by hand across 15 users — each with a department base schedule, and 6 of them with an additional weekend block — would be slow and error-prone. As the IT analyst handling the task (Hiroshi), I script it so every account in scope receives exactly the right schedule consistently.
 
 <!-- SCREENSHOT: osTicket task as submitted by HR -->
-![Ticket 007 request](../screenshots/XX-ticket007-osticket-request.png)
+![Ticket 007 request](../screenshots/76-ticket007-osticket-request.png)
 *The working-hours task as logged by HR for the IT team.*
 
 ---
