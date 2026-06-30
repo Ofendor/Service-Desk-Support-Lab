@@ -94,6 +94,8 @@ Confirmed across departments that all users returned to "always permitted" befor
 
 ### Step 3: Apply the full schedule across all departments
 
+**Note:** You can run the command below or execute the .ps1 script via PowerShell ISE as an Administrator.
+
 ```powershell
 .\16-set-department-logon-hours.ps1 -UtcOffset 12
 ```
