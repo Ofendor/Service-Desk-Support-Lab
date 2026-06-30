@@ -151,9 +151,9 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 | [003 – Account Unlock](tickets/ticket-003-account-unlock.md) | Unlock a locked-out account | ✅ Resolved |
 | [004 – Department Transfer](tickets/ticket-004-department-transfer.md) | Move a user between departments | ✅ Resolved |
 |[005 – Offboarding Employee from company AD](tickets/ticket-005-offoarding-employee.md) | Disable and archive a leaver's account | ✅ Resolved |
-| 006 – Shared Folder Access | Diagnose and fix NTFS/share permissions | 🔜 |
-| 007 – Bulk Logon Hours | Apply department-wide logon restrictions | 🔜 |
-| 008 – WSUS Patch Compliance | Approve and verify updates | 🔜 |
+| [006 – Shared Folder Access](tickets/ticket-006-shared-folder-access.md) | Diagnose and fix NTFS/share permissions | ✅ Resolved |
+| [007 - Bulk Logon Hours](tickets/ticket-007-bulk-logon-hours.md) | Apply department-wide logon restrictions | ✅ Resolved |
+| [008 – WSUS Patch Management](tickets/ticket-008-WSUS-patch-management.md) | Approve and verify updates | 🔜 |
 | 010 – Software Deployment | Deploy software via Group Policy | 🔜 |
 
 ---
