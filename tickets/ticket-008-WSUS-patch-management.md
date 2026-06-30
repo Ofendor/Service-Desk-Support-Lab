@@ -19,8 +19,8 @@ As part of the quarter's security baseline, IT department raised a patch managem
 
 The task: get WIN11-01 reporting to WSUS, approve and deploy a security update through the proper department-targeted workflow, verify the patch installed, and document a repeatable procedure for the team.
 
-> **Task – Establish WSUS patch compliance (IT Management → Service Desk)**
-> *"WSUS is synced but the console shows no computers reporting. Please get WIN11-01 registered, deploy a security update to it through the IT group as a test ring, and confirm it installs. Document the procedure so we can repeat it for the other departments. — Priya, IT Support Manager"*
+**Task – Establish WSUS patch compliance (IT Management → Service Desk)**
+`WSUS is synced but the console shows no computers reporting. Please get WIN11-01 registered, deploy a security update to it through the IT group as a test ring, and confirm it installs. Document the procedure so we can repeat it for the other departments. — Priya, IT Support Manager`
 
 This ticket was the most involved in the lab. The "client not reporting" problem masked a genuine configuration defect, and the deployment phase surfaced a real-world disk-capacity incident — both documented below exactly as they happened.
 
@@ -200,6 +200,19 @@ The client installed the current security rollups, rebooted, and reported back. 
 *WSUS receiving real per-update status from WIN11-01 — reporting pipeline confirmed.*
 
 > **Preview / optional update excluded.** A non-security **Preview** update (next month's pre-release cumulative) appeared as optional during deployment. Per patch policy, preview/optional updates are **not** part of standard compliance — only Critical/Security rollups are deployed. It was left uninstalled. Knowing the difference between "an update exists" and "an update should be deployed" is patch governance.
+
+---
+#### After the reboot:
+
+On **WIN11-01** after reboot, `Get-HotFix` confirmed the new security updates installed — **KB5094135** and **KB5094126**, both dated the deployment day (30/06/2026), sitting on top of the baseline (compare against screenshot 83):
+
+```powershell
+Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 10 HotFixID, Description, InstalledOn
+```
+
+<!-- SCREENSHOT: post-patch hotfix verification on WIN11-01 -->
+![Post-patch verification](../screenshots/91-ticket008-post-patch-hotfix.png)
+*After-patch state: two new security updates (KB5094135, KB5094126) installed on 30/06/2026, confirming the WSUS deployment landed. The before/after pair (83 → 91) is the proof of compliance.*
 
 ---
 
