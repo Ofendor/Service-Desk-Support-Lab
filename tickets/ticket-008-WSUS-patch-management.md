@@ -4,9 +4,9 @@
 ![Priority](https://img.shields.io/badge/Priority-Normal-green)
 ![Status](https://img.shields.io/badge/Status-Resolved-success)
 
-**Ticket ID:** #XXXXXX (osTicket)
-**Date:** June 2026
-**Requester:** IT Management (Priya – IT Support Manager)
+**Ticket ID:** #633698 (osTicket)
+**Date:** July 2026
+**Requester:** IT Management (Maria Gonzales – IT Support Manager)
 **Assigned To:** Hiroshi Tanaka (IT / Service Desk)
 **Help Topic:** General Inquiry
 **SLA:** Standard – 24h
