@@ -16,8 +16,16 @@ Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Polici
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "WUStatusServer" -Type String -Value "http://AKL-DC01:8530"
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "NoAutoUpdate" -Type DWord -Value 0
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "AUOptions" -Type DWord -Value 3
+# CRITICAL: UseWUServer = 1 tells the client to actually USE the WSUS server.
+# Without this value the client has the WSUS address but ignores it, reports
+# "WSUS server: (null)" in WindowsUpdate.log, and never appears in the console.
+Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "UseWUServer" -Type DWord -Value 1
 
 Write-Host "=== Linking GPO to domain ==="
 New-GPLink -Name "WSUS Client Configuration" -Target "DC=servicedesk,DC=lab" -ErrorAction SilentlyContinue
+
+Write-Host "`n=== Verifying all five registry values are set ==="
+Get-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" |
+    Format-Table ValueName, Value, HasValue
 
 Write-Host "`n=== WSUS GPO created and linked successfully ==="
