@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Monitors WSUS update content download progress from the command line. Run this script in DC01 Server VM.
+    Monitors WSUS update content download progress from the command line.
 
 .DESCRIPTION
     When updates are approved in WSUS, the server downloads their content files
@@ -8,34 +8,43 @@
     can time out during large downloads, so this script polls download progress
     headlessly via the WSUS API instead.
 
-    It reports overall percentage, MB downloaded vs. total, and — importantly —
-    current free space on the content volume (C:). Cumulative updates are large,
-    and over-approving can fill the disk, which crashes the WsusPool application
-    pool. Watching the free-space figure lets you stop before the disk fills.
+    It reports a timestamp, overall percentage, MB downloaded vs. total, and —
+    importantly — current free space on the content volume (C:). Cumulative updates
+    are large, and over-approving can fill the disk, which crashes the WsusPool
+    application pool. The script aborts automatically if free space falls below a
+    safety threshold, so the disk never fills mid-download.
 
     Run on the WSUS server (AKL-DC01). Press Ctrl+C to stop.
+
+.PARAMETER IntervalSeconds
+    Seconds between progress checks. Default 30.
 
 .PARAMETER DriveLetter
     The volume hosting the WSUS content store, checked for free space. Default 'C'.
 
-.EXAMPLE
-    .\26-monitor-wsus-download.ps1
-    Polls every 30 seconds, showing download progress and C: free space.
+.PARAMETER AbortFreeGB
+    If free space on the content volume falls below this many GB, the script stops
+    and warns — protecting against a full-disk WsusPool crash. Default 2.
 
 .EXAMPLE
-    .\26-monitor-wsus-download.ps1 -IntervalSeconds 15 -DriveLetter C
-    Polls every 15 seconds against the C: volume.
+    .\21-monitor-wsus-download.ps1
+    Polls every 30 seconds; aborts if C: free space drops below 2 GB.
+
+.EXAMPLE
+    .\21-monitor-wsus-download.ps1 -IntervalSeconds 15 -AbortFreeGB 5
+    Polls every 15 seconds; aborts if free space drops below 5 GB.
 
 .NOTES
     Must run on the WSUS server — Get-WsusServer is not available on clients.
-    If progress stalls and free space is near zero, stop and reclaim space
+    If progress stalls and free space is near zero, reclaim space
     (see the WSUS Patch Approval runbook, Recovery section).
 #>
 
 [CmdletBinding()]
 param(
     [int]$IntervalSeconds = 30,
-    [string]$DriveLetter = "C"
+    [string]$DriveLetter  = "C",
+    [int]$AbortFreeGB     = 2
 )
 
 try {
@@ -47,14 +56,18 @@ try {
 }
 
 Write-Host "Monitoring WSUS content download (Ctrl+C to stop)..." -ForegroundColor Cyan
+Write-Host "Will auto-abort if $($DriveLetter): free space drops below $AbortFreeGB GB." -ForegroundColor Cyan
 Write-Host ""
 
 while ($true) {
     try {
-        $p = $wsus.GetContentDownloadProgress()
+        $p  = $wsus.GetContentDownloadProgress()
+        $ts = Get-Date -Format 'HH:mm:ss'
 
         if ($p.TotalBytesToDownload -gt 0) {
-            $pct = [Math]::Round(($p.DownloadedBytes / $p.TotalBytesToDownload) * 100, 2)
+            # Clamp at 100 — if more updates are approved mid-session the total
+            # can shift and the raw percentage can briefly exceed 100.
+            $pct = [Math]::Min([Math]::Round(($p.DownloadedBytes / $p.TotalBytesToDownload) * 100, 2), 100)
         } else {
             $pct = 100   # nothing queued = nothing to download
         }
@@ -64,9 +77,16 @@ while ($true) {
         # Colour the free-space warning: red under 3 GB, yellow under 8 GB, else cyan
         $colour = if ($free -lt 3) { "Red" } elseif ($free -lt 8) { "Yellow" } else { "Cyan" }
 
-        Write-Host ("{0}% - {1:N0} MB of {2:N0} MB | {3}: free: {4} GB" -f `
-            $pct, ($p.DownloadedBytes / 1MB), ($p.TotalBytesToDownload / 1MB), $DriveLetter, $free) `
+        Write-Host ("[{0}] {1}% - {2:N0} MB of {3:N0} MB | {4}: free: {5} GB" -f `
+            $ts, $pct, ($p.DownloadedBytes / 1MB), ($p.TotalBytesToDownload / 1MB), $DriveLetter, $free) `
             -ForegroundColor $colour
+
+        # Proactive safety: stop before the disk fills and crashes WsusPool.
+        if ($free -lt $AbortFreeGB) {
+            Write-Host "`nABORTING: $($DriveLetter): free space ($free GB) below threshold ($AbortFreeGB GB)." -ForegroundColor Red
+            Write-Host "Decline unneeded updates and run Invoke-WsusServerCleanup to reclaim space (see runbook Recovery)." -ForegroundColor Yellow
+            break
+        }
 
         if ($pct -ge 100 -and $p.TotalBytesToDownload -gt 0) {
             Write-Host "`nDownload complete — all approved content is on the server." -ForegroundColor Green
