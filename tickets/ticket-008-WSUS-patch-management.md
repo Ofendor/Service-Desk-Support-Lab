@@ -25,7 +25,7 @@ The task: get WIN11-01 reporting to WSUS, approve and deploy a security update t
 This ticket was the most involved in the lab. The "client not reporting" problem masked a genuine configuration defect, and the deployment phase surfaced a real-world disk-capacity incident — both documented below exactly as they happened.
 
 <!-- SCREENSHOT: osTicket task as submitted by IT management -->
-![Ticket 008 request](../screenshots/93-ticket008-osticket-request.png)
+![Ticket 008 request](../screenshots/92-ticket008-osticket-request.png)
 *Patch-compliance task as logged for the service desk.*
 
 ---
