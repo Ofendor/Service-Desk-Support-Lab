@@ -113,7 +113,7 @@ Restart-Service WsusService -Force
 
 During the initial synchronisation, WSUS stayed permanently frozen at `0%` or crashed the MMC console with this error:
 
-```makrdown
+```text
 The WSUS administration console was unable to connect to the WSUS Server via the remote API.
 System.Net.WebException -- The operation has timed out
 ```
@@ -192,11 +192,14 @@ Computer groups let you target updates to specific sets of machines rather than 
 A GPO was created to point all domain computers to the WSUS server.
 
 Registry Values Set
-Key	Value
-WUServer	http://AKL-DC01:8530
-WUStatusServer	http://AKL-DC01:8530
-NoAutoUpdate	0
-AUOptions	3 (Auto download and notify for install)
+
+| Key | Value |
+|---|---|
+| WUServer | http://AKL-DC01:8530 |
+| WUStatusServer | http://AKL-DC01:8530 |
+| NoAutoUpdate | 0 |
+| AUOptions | 3 (Auto download and notify for install) |
+| UseWUServer | 1 (REQUIRED — tells the client to use WSUS, not Microsoft) |
 
 ## GPO Creation (PowerShell)
 ```powershell
@@ -205,23 +208,41 @@ Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Polici
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "WUStatusServer" -Type String -Value "http://AKL-DC01:8530"
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "NoAutoUpdate" -Type DWord -Value 0
 Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "AUOptions" -Type DWord -Value 3
+# CRITICAL: UseWUServer = 1 tells the client to actually USE the WSUS server.
+# Without this value the client has the WSUS address but ignores it, reports
+# "WSUS server: (null)" in WindowsUpdate.log, and never appears in the console.
+Set-GPRegistryValue -Name "WSUS Client Configuration" -Key "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -ValueName "UseWUServer" -Type DWord -Value 1
 New-GPLink -Name "WSUS Client Configuration" -Target "DC=servicedesk,DC=lab"
 ```
+
+> **⚠️ Critical gotcha — the `UseWUServer` value.**
+> `Set-GPRegistryValue` writes *only* the values you list. The original version of
+> this script set four values but omitted `UseWUServer`, so clients received the
+> WSUS address but were never told to use it — they reported `WSUS server: (null)`
+> and never appeared in the console. This caused an extended troubleshooting effort
+> (documented in Ticket 008). Always confirm all **five** values are present on the
+> client: `WUServer`, `WUStatusServer`, `NoAutoUpdate`, `AUOptions`, and `UseWUServer`.
+
 ![WSUS client registry complete](../screenshots/34-wsus-client-registry.png)
 
 ### Client Verification
 On `WIN11-01`, after `gpupdate /force`, the registry confirms the client is pointing to WSUS:
 
 ```powershell
-Get-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" | Format-Table WUServer, WUStatusServer`
+Get-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" | Format-Table WUServer, WUStatusServer
 ```
 
 Registry on `WIN11-01` confirming the WSUS GPO applied successfully will show the following output:
-```powershell
-text
+```text
 WUServer             WUStatusServer
 --------             --------------
 http://AKL-DC01:8530 http://AKL-DC01:8530
+```
+
+Also confirm the AU key holds `UseWUServer = 1` — this is the value that actually activates WSUS:
+
+```powershell
+Get-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" | Format-Table UseWUServer, AUOptions, NoAutoUpdate
 ```
 
 ---
