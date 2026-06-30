@@ -299,6 +299,6 @@ Invoke-WsusServerCleanup -CleanupObsoleteComputers -CleanupUnneededContentFiles 
 
 ## Related
 
-- [WSUS Patch Approval Runbook](../runbooks/wsus-patch-approval.md)
+- [WSUS Patch Approval Runbook](../runbooks/WSUS-patch-approval-and-deployment.md)
 - [WSUS Setup](../docs/09-wsus-setup.md) *(corrected — see UseWUServer note)*
-- Script: [21-monitor-wsus-download.ps1](../scripts/21-monitor-wsus-download.ps1)
+- Script: [21-monitor-wsus-download.ps1](../scripts/26-monitor-wsus-download.ps1)
