@@ -15,7 +15,7 @@
 
 ## Scenario
 
-As part of the quarter's security baseline, IT management raised a task with the service desk to bring the managed Windows 11 fleet under WSUS patch control and confirm the pipeline works end to end. The lab had WSUS installed and synchronised on AKL-DC01 (432 security updates staged, three computer groups created), but **no client had ever reported in** — the WSUS console showed zero managed computers.
+As part of the quarter's security baseline, IT department raised a patch management task with the service desk to update all the Windows 11 fleet under WSUS patch control. The lab had WSUS installed and synchronised on AKL-DC01 (432 security updates staged, three computer groups created), but **no client had ever reported in** — the WSUS console showed zero managed computers. This walkthrough walks you on every issue I found during the lab deployment and how it was fixed. Please, have in mind that your scenario might differ. Consider this path only as an alternative.
 
 The task: get WIN11-01 reporting to WSUS, approve and deploy a security update through the proper department-targeted workflow, verify the patch installed, and document a repeatable procedure for the team.
 
@@ -32,7 +32,7 @@ This ticket was the most involved in the lab. The "client not reporting" problem
 
 ## Why This Matters at an MSP
 
-Patch compliance is one of the core recurring duties of a managed-services desk. WSUS is a **local distribution middleman**: updates download from Microsoft to the server **once**, then clients pull from the server over the LAN — saving bandwidth and giving the admin central control over *what* installs and *when*.
+Patch compliance is one of the most important duties of a managed-services desk. WSUS is a **local distribution middleman**: updates download from Microsoft to the server **once**, then clients pull from the server over the LAN, saving bandwidth and giving the admin central control over *what* installs and *when*.
 
 ```mermaid
 flowchart TD
@@ -87,7 +87,7 @@ AUOptions    : 3
 UseWUServer  : (missing)
 ```
 
-`UseWUServer` is the value that tells the client to use the intranet WSUS server instead of Microsoft. Without it, the agent ignores `WUServer` entirely and reports null — exactly the log symptom.
+`UseWUServer` is the value that tells the client to use the intranet WSUS server instead of Microsoft. Without it, the agent ignores `WUServer` entirely and reports null, which is exactly the log symptom.
 
 ### Root Cause
 
@@ -137,7 +137,7 @@ wuauclt /reportnow
 
 ## Part 2 – Update Approval and Deployment
 
-### Step 1: Baseline the client (before state)
+### Step 1: Baseline, before the implementation
 
 On **WIN11-01**, captured installed patches before deployment:
 
@@ -177,7 +177,7 @@ Filtered to **Windows 11 Version 24H2 for x64-based Systems** (WIN11-01's exact 
 
 ### Step 4: Server downloads the content
 
-WSUS must download an approved update's files from Microsoft before clients can pull them. Progress was monitored headlessly with a PowerShell loop (avoids the heavy MMC console, which can time out under load — see runbook and script 21):
+WSUS must download an approved update's files from Microsoft before clients can pull them. Progress was monitored headlessly with a PowerShell loop — see runbook and script 21:
 
 <!-- SCREENSHOT: content download progress loop -->
 ![Download progress](../screenshots/88-ticket008-content-download-progress.png)
@@ -185,7 +185,7 @@ WSUS must download an approved update's files from Microsoft before clients can 
 
 ### Step 5: Client detects, downloads, and installs
 
-Once content was on the server, WIN11-01 detected the approved update. The scripted COM downloader hit a transient BITS error (`0x80240042`); the native **Windows Update agent (Settings UI)** completed the download and install cleanly — a more robust path than scripting the COM downloader.
+Once content was on the server, WIN11-01 detected the approved update. 
 
 <!-- SCREENSHOT: WIN11-01 installing updates via Windows Update -->
 ![Installing updates](../screenshots/89-ticket008-win11-installing-updates.png)
@@ -245,15 +245,11 @@ Invoke-WsusServerCleanup -CleanupObsoleteComputers -CleanupUnneededContentFiles 
 
 > Manual content deletion is the **emergency** move, not routine maintenance. The correct long-term reclaim is decline-then-cleanup with `Invoke-WsusServerCleanup`.
 
-<!-- SCREENSHOT: WSUS cleanup output (only if cleanup was run) -->
-![WSUS cleanup](../screenshots/92-ticket008-wsus-cleanup.png)
-*Server cleanup reclaiming space the supported way — declining superseded/expired updates and purging unneeded content.*
-
 ---
 
 ## Ticket Closure
 
-> Kia ora Priya, WSUS patch compliance is now working end to end. Root cause of the no-reporting issue was the client GPO missing the `UseWUServer` registry value — it had the WSUS address but was never told to use it. Corrected the GPO, WIN11-01 registered, and I deployed a security update through the IT-PCs test ring and confirmed it installed (new KBs verified on the client). I also hit and resolved a disk-capacity issue on the WSUS content volume — documented, with a cleanup routine added to prevent recurrence. The procedure is written up as a runbook for repeating on the other departments. Regards, Hiroshi (IT)
+`Kia ora Priya, WSUS patch compliance is now working end to end. Root cause of the no-reporting issue was the client GPO missing the `UseWUServer` registry value — it had the WSUS address but was never told to use it. Corrected the GPO, WIN11-01 registered, and I deployed a security update through the IT-PCs test ring and confirmed it installed (new KBs verified on the client). I also hit and resolved a disk-capacity issue on the WSUS content volume — documented, with a cleanup routine added to prevent recurrence. The procedure is written up as a runbook for repeating on the other departments. Regards, Hiroshi (IT)`
 
 <!-- SCREENSHOT: osTicket resolved with the agent reply -->
 ![Ticket 008 resolved](../screenshots/94-ticket008-osticket-resolved.png)
