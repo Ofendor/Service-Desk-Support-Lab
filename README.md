@@ -153,7 +153,7 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 |[005 – Offboarding Employee from company AD](tickets/ticket-005-offoarding-employee.md) | Disable and archive a leaver's account | ✅ Resolved |
 | [006 – Shared Folder Access](tickets/ticket-006-shared-folder-access.md) | Diagnose and fix NTFS/share permissions | ✅ Resolved |
 | [007 - Bulk Logon Hours](tickets/ticket-007-bulk-logon-hours.md) | Apply department-wide logon restrictions | ✅ Resolved |
-| [008 – WSUS Patch Management](tickets/ticket-008-WSUS-patch-management.md) | Approve and verify updates | 🔜 |
+| [008 – WSUS Patch Management](tickets/ticket-008-WSUS-patch-management.md) | Approve and verify updates | ✅ Resolved |
 | 010 – Software Deployment | Deploy software via Group Policy | 🔜 |
 
 ---
