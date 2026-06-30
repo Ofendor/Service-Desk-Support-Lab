@@ -262,10 +262,8 @@ Invoke-WsusServerCleanup -CleanupObsoleteComputers -CleanupUnneededContentFiles 
 
 ## Ticket Closure
 
-`Kia ora Priya, WSUS patch compliance is now working end to end. Root cause of the no-reporting issue was the client GPO missing the `UseWUServer` registry value — it had the WSUS address but was never told to use it. Corrected the GPO, WIN11-01 registered, and I deployed a security update through the IT-PCs test ring and confirmed it installed (new KBs verified on the client). I also hit and resolved a disk-capacity issue on the WSUS content volume — documented, with a cleanup routine added to prevent recurrence. The procedure is written up as a runbook for repeating on the other departments. Regards, Hiroshi (IT)`
-
 <!-- SCREENSHOT: osTicket resolved with the agent reply -->
-![Ticket 008 resolved](../screenshots/94-ticket008-osticket-resolved.png)
+![Ticket 008 resolved](../screenshots/93-ticket008-osticket-resolved.png)
 *Task resolved in osTicket.*
 
 ---
