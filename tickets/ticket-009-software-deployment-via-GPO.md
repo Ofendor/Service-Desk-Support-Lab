@@ -269,4 +269,4 @@ Get-WinEvent -LogName System -MaxEvents 20 | Where-Object { $_.ProviderName -eq 
 ## Related
 
 - [Software Deployment Runbook](../runbooks/software-deployment.md)
-- Ticket: [WSUS Patch Compliance](../tickets/ticket-008-wsus-patch-compliance.md) *(the patching counterpart — Microsoft updates vs third-party software)*
+- Ticket: [WSUS Patch Compliance](../tickets/ticket-008-WSUS-patch-management.md) *(the patching counterpart — Microsoft updates vs third-party software)*
