@@ -99,7 +99,7 @@ graph TD
 - [WSUS Patch Management Setup](docs/09-wsus-setup.md)
 - [osTicket Ticketing System Setup](docs/10-osticket-setup.md)
 - [osTicket Configuration – Agents, Users, SLAs & Email](docs/11-osticket-configuration.md)
-- Runbooks (coming soon)
+- [Runbooks – Operational Procedures](runbooks/1-README-Runbooks-Index.md)
 
 ## PowerShell Scripts
 
