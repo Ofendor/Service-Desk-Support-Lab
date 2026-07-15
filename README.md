@@ -19,6 +19,7 @@
 ![Nginx](https://img.shields.io/badge/Nginx-Web%20Server-009639?logo=nginx&logoColor=white)
 ![Group Policy](https://img.shields.io/badge/Group%20Policy-GPO-003366?logo=microsoft&logoColor=white)
 ![YAML](https://img.shields.io/badge/YAML-Config-CB171E?logo=yaml&logoColor=white)
+![7-Zip](https://img.shields.io/badge/7--Zip-Deployed%20via%20GPO-04A754?logo=7zip&logoColor=white)
 
 Author: Emilio Mardones
 
@@ -154,8 +155,7 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 | [006 – Shared Folder Access](tickets/ticket-006-shared-folder-access.md) | Diagnose and fix NTFS/share permissions | ✅ Resolved |
 | [007 - Bulk Logon Hours](tickets/ticket-007-bulk-logon-hours.md) | Apply department-wide logon restrictions | ✅ Resolved |
 | [008 – WSUS Patch Management](tickets/ticket-008-WSUS-patch-management.md) | Approve and verify updates | ✅ Resolved |
-| 010 – Software Deployment | Deploy software via Group Policy | 🔜 |
-
+| [009 – Software Deployment via GPO](tickets/ticket-009-software-deployment-via-GPO.md) | Deploy 7-Zip to workstations via Group Policy | ✅ Resolved |
 ---
 
 ## Final Lab Environment Overview
