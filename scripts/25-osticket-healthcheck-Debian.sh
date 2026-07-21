@@ -21,7 +21,7 @@ if [ -n "$APP_UP" ]; then
     echo "[+] App container (osticket-osticket-1) is running"
 else
     echo "[X] App container is NOT running"
-    echo "    Try: cd /home/victim1/osticket && sudo docker-compose up -d"
+    echo "    Try: cd ~/osticket && sudo docker-compose up -d"
     PASS=false
 fi
 
@@ -37,7 +37,7 @@ fi
 # A running DB container is not the same as a healthy database engine.
 if [ -n "$DB_UP" ]; then
     echo "[*] Pinging the MariaDB engine inside the DB container..."
-    if sudo docker exec osticket-db-1 mariadb-admin ping -u osticket -pOsticketPass123! --silent 2>/dev/null; then
+    if sudo docker exec osticket-db-1 mariadb-admin ping -u osticket -p<your-osticket-password> --silent 2>/dev/null; then
         echo "[+] Database engine is answering"
     else
         echo "[X] DB container runs but the engine is not responding"

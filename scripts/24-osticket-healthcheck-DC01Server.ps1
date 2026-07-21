@@ -9,7 +9,7 @@
     Read-only — changes nothing. Run when users report the ticketing
     system unreachable, before touching the Debian host.
 .EXAMPLE
-    .\24-osticket-healthcheck.ps1
+    .\24-osticket-healthcheck-DC01Server
     Run on AKL-DC01 (or any domain machine with RSAT PowerShell).
 #>
 

@@ -5,7 +5,7 @@
 **Applies To:** `servicedesk.lab` — AKL-DC01
 **Related Ticket:** [Bulk Logon Hours](../tickets/ticket-007-bulk-logon-hours.md)
 **Script:** [16-set-department-logon-hours.ps1](../scripts/16-set-department-logon-hours.ps1)
-**Related Doc File:** [Setting Logon hours restrictions for a single user](docs/08-logon-hours-restrictions.md)
+**Related Doc File:** [Setting Logon hours restrictions for a single user](../docs/08-logon-hours-restrictions.md)
 
 ---
 

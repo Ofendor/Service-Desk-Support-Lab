@@ -8,7 +8,6 @@
 ![PowerShell](https://img.shields.io/badge/PowerShell-7.4-5391FE?logo=powershell&logoColor=white)
 ![osTicket](https://img.shields.io/badge/osTicket-1.18%20(Open%20Source)-green?logo=opensourceinitiative&logoColor=white)
 ![WSUS](https://img.shields.io/badge/WSUS-Built--in-003366?logo=microsoft&logoColor=white)
-![Intune](https://img.shields.io/badge/Intune-Free%20Trial-0078D4?logo=microsoftintune&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Docs-Markdown-000000?logo=markdown&logoColor=white)
 ![Mermaid](https://img.shields.io/badge/Diagrams-Mermaid-FF3670?logo=mermaid&logoColor=white)
@@ -30,7 +29,7 @@ Welcome to my Service Desk Support lab!
 
 ## About the lab
 
-This is a hands-on lab that simulates the IT infrastructure you'd find inside a real company. I built it to practise the kind of work a service desk analyst does every day. Once you set up your lab, you will be ready to start managing users, resetting passwords, fixing access issues, implement group policies, do patch management, and manage ticketing services. Everything runs using VirtualBox and free or open-source tools.
+This is a hands-on lab that simulates the IT infrastructure you'd find inside a real company. I built it to practice the kind of work a service desk analyst does every day. Once you set up your lab, you will be ready to start managing users, resetting passwords, fixing access issues, implement group policies, do patch management, and manage ticketing services. Everything runs using VirtualBox and free or open-source tools.
 
 ---
 
@@ -51,7 +50,6 @@ Anyone who wants to break into IT support, sharpen their Active Directory skills
 - Writing runbooks someone else could follow
 - Using a ticketing system to log and track issues properly
 - WSUS for patch management to keep servers and workstations up to date
-- Enrolling devices into Microsoft Intune for modern device management
 
 ---
 

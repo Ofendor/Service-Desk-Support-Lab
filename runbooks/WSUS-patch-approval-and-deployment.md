@@ -4,7 +4,7 @@
 
 **Applies To:** `servicedesk.lab` — AKL-DC01 (WSUS), Windows clients
 **Related Ticket:** [WSUS Patch Compliance](../tickets/ticket-008-WSUS-patch-management.md)
-**Scripts:** [21-monitor-wsus-download.ps1](../scripts/26-monitor-wsus-download.ps1)
+**Scripts:** [26-monitor-wsus-download.ps1](../scripts/26-monitor-wsus-download.ps1)
 
 ---
 

@@ -23,10 +23,10 @@ services:
   db:
     image: mariadb:10.6
     environment:
-      MYSQL_ROOT_PASSWORD: OsticketRoot123!
+      MYSQL_ROOT_PASSWORD: <your-osticket-password>
       MYSQL_DATABASE: osticket
       MYSQL_USER: osticket
-      MYSQL_PASSWORD: OsticketPass123!
+      MYSQL_PASSWORD: <your-osticket-password>
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -37,7 +37,7 @@ services:
       MYSQL_HOST: db
       MYSQL_DATABASE: osticket
       MYSQL_USER: osticket
-      MYSQL_PASSWORD: OsticketPass123!
+      MYSQL_PASSWORD: <your-osticket-password>
     ports:
       - "8081:80"
     volumes:

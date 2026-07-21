@@ -19,7 +19,7 @@ Create a new starter's Active Directory account, place them in the correct OU an
 ### [Offboarding](offboarding.md)
 Disable a leaver's account, record and remove group memberships, and move the account to the Disabled Users OU.
 - **Related doc:** [Groups and Users](../docs/05-groups-and-users.md)
-- **Related ticket:** [005 – Offboarding](../tickets/ticket-005-offoarding-employee.md)
+- **Related ticket:** [005 – Offboarding](../tickets/ticket-005-offboarding-employee.md)
 
 ### [Department Transfer](department-transfer.md)
 Move a user between departments — update group memberships, relocate the account to the new OU, and set the department attribute.
