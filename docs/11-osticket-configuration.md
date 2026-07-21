@@ -54,7 +54,7 @@ flowchart TB
     CUSTOMERS -->|1. submit ticket| DESK
     DESK -->|2. work it: AD task on DC01| DC[("AKL-DC01<br>Active Directory")]
     DESK -->|3. reply + resolve| CUSTOMERS
-    CUSTOMERS -.->|email notifications| GMAIL[("Gmail inbox<br>mne.kruger@gmail.com")]
+    CUSTOMERS -.->|email notifications| GMAIL[("Gmail inbox<br>your-email@example.com")]
     DESK -.->|email notifications| GMAIL
 ```
 
@@ -92,14 +92,14 @@ Agents work tickets. **Three agents plus the admin** is deliberately lean — en
 
 | Name | Username | Department | Email | Role |
 |---|---|---|---|---|
-| Admin User | `ostadmin` | Support | `mne.kruger@gmail.com` | System Admin (break-glass) |
-| **Hiroshi Tanaka** | `hiroshi.tanaka` | IT | `mne.kruger+hiroshi@gmail.com` | **Primary analyst (the lab persona)** |
-| Olivia Brown | `olivia.brown` | IT | `mne.kruger+olivia@gmail.com` | Agent |
-| Raj Singh | `raj.singh` | IT | `mne.kruger+raj@gmail.com` | Agent |
+| Admin User | `ostadmin` | Support | `your-email@example.com` | System Admin (break-glass) |
+| **Hiroshi Tanaka** | `hiroshi.tanaka` | IT | `your-email+hiroshi@gmail.com` | **Primary analyst (the lab persona)** |
+| Olivia Brown | `olivia.brown` | IT | `your-email+olivia@gmail.com` | Agent |
+| Raj Singh | `raj.singh` | IT | `your-email+raj@gmail.com` | Agent |
 
 > **`ostadmin` vs. an agent account:** `ostadmin` is the *system administrator* — used to **configure** osTicket (create agents, SLAs, email). It is not used for day-to-day ticket work. The analyst persona for this lab is **Hiroshi Tanaka**, who logs in as `hiroshi.tanaka` and works/closes every ticket.
 
-> **Why agents share one inbox:** Gmail **plus-addressing** (`mne.kruger+hiroshi@gmail.com`, `+olivia`, `+raj`) gives each agent a unique address that osTicket accepts, while every message still lands in the single `mne.kruger@gmail.com` inbox — ideal for a one-person lab.
+> **Why agents share one inbox:** Gmail **plus-addressing** (`your-email+hiroshi@gmail.com`, `+olivia`, `+raj`) gives each agent a unique address that osTicket accepts, while every message still lands in the single `your-email@example.com` inbox — ideal for a one-person lab.
 
 ---
 
@@ -125,11 +125,11 @@ End users are the employees who receive support. They are grouped into **Organiz
 
 | Name | Organization | Email (portal login) |
 |---|---|---|
-| Tane Williams | Sales | `mne.kruger+tane@gmail.com` |
-| Priya Patel | Sales | `mne.kruger+priya@gmail.com` |
-| Emma Wilson | Sales | `mne.kruger+emma@gmail.com` |
-| Mei Lin | HR | `mne.kruger+mei@gmail.com` |
-| Sione Tupou | IT | `mne.kruger+sione@gmail.com` |
+| Tane Williams | Sales | `your-email+tane@gmail.com` |
+| Priya Patel | Sales | `your-email+priya@gmail.com` |
+| Emma Wilson | Sales | `your-email+emma@gmail.com` |
+| Mei Lin | HR | `your-email+mei@gmail.com` |
+| Sione Tupou | IT | `your-email+sione@gmail.com` |
 
 > **Tane Williams** is the recurring "customer" across the ticket simulations — the user who forgets passwords, locks his account, and requests access. The analyst (Hiroshi) resolves these.
 
@@ -188,11 +188,11 @@ Outbound email runs through **Gmail SMTP**, so agents and users receive real not
 2. Generate a **16-character App Password** (named `osticket-lab`).
 3. Use that App Password in osTicket's SMTP config — **never the real Gmail password, and never commit it to GitHub** (documented as `<gmail-app-password>`).
 
-### SMTP settings (Admin Panel → Emails → Emails → `mne.kruger@gmail.com`)
+### SMTP settings (Admin Panel → Emails → Emails → `your-email@example.com`)
 
 | Field | Value |
 |---|---|
-| Email Address | `mne.kruger@gmail.com` |
+| Email Address | `your-email@example.com` |
 | Email Name | `Service Desk` |
 | Department | Support |
 | IMAP/POP Fetching | **Disabled** (outbound only) |
@@ -200,12 +200,12 @@ Outbound email runs through **Gmail SMTP**, so agents and users receive real not
 | SMTP Hostname | `smtp.gmail.com` |
 | SMTP Port | `587` |
 | Authentication | Required |
-| SMTP Username | `mne.kruger@gmail.com` |
-| SMTP Password | `<gmail-app-password>` |
+| SMTP Username | `your-email@example.com` |
+| SMTP Password | `<your-mail-app-password>` | 
 
 ### Make it the system default
 
-**Admin Panel → Settings → Emails** → set **Default System Email** and **Default Alert Email** to `Service Desk <mne.kruger@gmail.com>`. This is essential — otherwise osTicket sends from the dead default `helpdesk@example.com` and mail fails.
+**Admin Panel → Settings → Emails** → set **Default System Email** and **Default Alert Email** to `Service Desk <your-email@example.com>`. This is essential — otherwise osTicket sends from the dead default `helpdesk@example.com` and mail fails.
 
 ### Verification — the notifications work
 
@@ -219,7 +219,7 @@ When a ticket is created and assigned, both parties are emailed automatically:
 ![User notification email](../screenshots/50-osticket-email-user-notice1.png)
 *The end user (Tane) receives confirmation that a ticket was opened on their behalf.*
 
-> **Plus-addressing in action:** the agent alert goes to `mne.kruger+hiroshi@gmail.com` and the user notice to `mne.kruger+tane@gmail.com` — both arrive in the same inbox, proving the unique-address routing works end to end.
+> **Plus-addressing in action:** the agent alert goes to `your-email+hiroshi@gmail.com` and the user notice to `your-email+tane@gmail.com` — both arrive in the same inbox, proving the unique-address routing works end to end.
 
 ---
 

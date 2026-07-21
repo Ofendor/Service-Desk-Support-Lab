@@ -127,8 +127,8 @@ http://support.servicedesk.lab:8081/scp
 
 Login credentials:
 
-- **Username:** `ostadmin`
-- **Password:** `Admin1`
+- **Username:** `<OsTicketAdmin>`
+- **Password:** `<Password>`
 
 ![osTicket staff login](../screenshots/38-osticket-login.png)
 *Staff login page at `/scp`*

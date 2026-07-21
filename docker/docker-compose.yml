@@ -6,10 +6,10 @@ services: # Define the services that will be run in the Docker environment
   db:
     image: mariadb:10.6 # Use the official MariaDB image, version 10.6
     environment:
-      MYSQL_ROOT_PASSWORD: OsticketRoot123! # Set the root password for the MariaDB instance
+      MYSQL_ROOT_PASSWORD: <DBRootPassword> # Set the root password for the MariaDB instance
       MYSQL_DATABASE: osticket # Create a database named 'osticket' for osTicket to use
       MYSQL_USER: osticket # Create a user named 'osticket' for osTicket to connect with
-      MYSQL_PASSWORD: OsticketPass123! # Set the password for the 'osticket' user
+      MYSQL_PASSWORD: <DBRootPassword> # Set the password for the 'osticket' user
     volumes:
       - db_data:/var/lib/mysql # Persist the database data in a Docker volume named 'db_data'
     restart: always # Automatically restart the database container if it stops
@@ -20,7 +20,7 @@ services: # Define the services that will be run in the Docker environment
       MYSQL_HOST: db # Set the database host to the name of the database service defined above
       MYSQL_DATABASE: osticket # Set the database name to match the one created in the database service
       MYSQL_USER: osticket # Set the database user to match the one created in the database service
-      MYSQL_PASSWORD: OsticketPass123! # Set the database password to match the one created in the database service
+      MYSQL_PASSWORD: <DBRootPassword> # Set the database password to match the one created in the database service
     ports:
       - "8081:80" # Map port 80 in the container to port 8081 on the host machine for web access
     volumes:

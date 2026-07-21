@@ -71,7 +71,7 @@ Add-Computer -DomainName "servicedesk.lab" -Credential SERVICEDESK\Administrator
 Note: If the password contains special characters that cause login issues, reset it on DC01 first:
 
 ```powershell
-Set-ADAccountPassword -Identity Administrator -Reset -NewPassword (ConvertTo-SecureString "P@ssW0rd!" -AsPlainText -Force)
+Set-ADAccountPassword -Identity Administrator -Reset -NewPassword (ConvertTo-SecureString "<TempPassword>" -AsPlainText -Force)
 ```
 
 ---
