@@ -6,16 +6,13 @@ Canonical network diagram for the lab environment. This is the single source of 
 graph TD
     HOST[VirtualBox Host<br>Oracle VirtualBox]
     NET{{ServicedeskLab NAT Network<br>192.168.10.0/24<br>Gateway 192.168.10.1}}
-
     HOST --- NET
-
-    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>192.168.10.10 — Static<br>AD DS · DNS · DHCP · WSUS<br>Domain: servicedesk.lab]
-    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>DHCP lease .100–.200<br>Domain-joined client<br>Workstations OU]
-    NET --- DEB[Debian VM<br>Debian Linux<br>192.168.10.20 — DHCP Reservation<br>osTicket · Docker · MariaDB<br>Port 8081]
-
-    DC01 -. DNS + DHCP + WSUS .-> W11
-    DC01 -. DNS + DHCP .-> DEB
-    W11 -. HTTP :8081 → support.servicedesk.lab .-> DEB
+    NET --- DC01[AKL-DC01<br>Windows Server 2022<br>192.168.10.10 - Static<br>AD DS / DNS / DHCP / WSUS<br>Domain servicedesk.lab]
+    NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>DHCP lease .100 to .200<br>Domain-joined client<br>Workstations OU]
+    NET --- DEB[Debian VM<br>Debian Linux<br>192.168.10.20 - DHCP Reservation<br>osTicket / Docker / MariaDB<br>Port 8081]
+    DC01 -. "DNS + DHCP + WSUS" .-> W11
+    DC01 -. "DNS + DHCP" .-> DEB
+    W11 -. "HTTP 8081 to support.servicedesk.lab" .-> DEB
 ```
 
 ## Notes

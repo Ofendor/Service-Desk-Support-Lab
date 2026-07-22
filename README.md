@@ -80,6 +80,7 @@ graph TD
     ROOT --- DIAG[diagrams<br>Network topology]
     ROOT --- README[README.md]
 ```
+**[Network Topology Diagram](diagrams/network-diagram.md)** — full lab network map (VMs, addressing, core services).
 
 ---
 
