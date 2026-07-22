@@ -78,8 +78,7 @@ graph TD
 
     NET --- W11[WIN11-01<br>Windows 11 Enterprise<br>DHCP .100-.200]
     W11 --- DOMAIN[Domain Joined]
-    W11 --- INTUNE[Intune Enrolled]
-
+    
     NET --- DEBIAN[Debian Linux<br>.20 DHCP Reservation]
     DEBIAN --- OSTICKET[osTicket<br>Ticketing System]
 
@@ -108,5 +107,5 @@ graph TD
 
     NET --- W11B[WIN11-02<br>Windows 11 Enterprise<br>30 GB<br>DHCP<br>Optional]
 
-    CLOUD[Cloud Services] --- AZURE[Azure AD / Intune Trial]
+    CLOUD[Cloud Services] --- AZURE[Azure AD / Intune Trial as future option]
     CLOUD --- M365[Microsoft 365 Trial<br>Optional]

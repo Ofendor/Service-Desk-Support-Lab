@@ -105,13 +105,13 @@ graph TD
 |---|---|
 | [01-configure-static-ip.ps1](scripts/01-configure-static-ip.ps1) | Set static IP and DNS on DC01 |
 | [02-install-ad-ds.ps1](scripts/02-install-ad-ds.ps1) | Install AD DS, DNS, DHCP roles |
-| [03-promote-dc.ps1](scripts/03-promote-dc.ps1) | Promote server to Domain Controller |
+| [03-promote-domain-controller.ps1](scripts/03-promote-domain-controller.ps1) | Promote server to Domain Controller |
 | [04-verify-domain.ps1](scripts/04-verify-domain.ps1) | Post-promotion verification checks |
 | [05-configure-dhcp.ps1](scripts/05-configure-dhcp.ps1) | Configure DHCP scope and options |
 | [06-create-ous.ps1](scripts/06-create-ous.ps1) | Create Organisational Units |
 | [07-create-groups.ps1](scripts/07-create-groups.ps1) | Create Security Groups |
 | [08-create-users.ps1](scripts/08-create-users.ps1) | Create 15 users across 3 departments |
-| [09-join-domain.ps1](scripts/09-join-domain.ps1) | Joining WIN11=01 VM to the Server Domain | 
+| [09-join-domain.ps1](scripts/09-join-domain.ps1) | Joining WIN11-01 VM to the Server Domain | 
 | [10-move-computer.ps1](scripts/10-move-computer.ps1) | Move computer to Workstations OU |
 | [11-create-password-policy.ps1](scripts/11-create-password-policy.ps1) | Create and link Password Policy GPO |
 | [12-create-lockout-policy.ps1](scripts/12-create-lockout-policy.ps1) | Create and link Account Lockout Policy GPO |
@@ -124,7 +124,7 @@ graph TD
 | [18-create-wsus-gpo-(alternative).ps1](scripts/18-create-wsus-gpo-(alternative).ps1) | Create WSUS client GPO (GUI alternative) |
 | [19-wsus-sync-bottleneck-fix.ps1](scripts/19-wsus-sync-bottleneck-fix.ps1) | Fix frozen WSUS sync and database deadlocks |
 | [20-network-restoration-script.ps1](scripts/20-network-restoration-script.ps1) | Restore static IP after NAT switch |
-| [23-setup-support-dns.sh](scripts/23-setup-support-dns.ps1) | Create DNS record for support.servicedesk.lab |
+| [23-setup-support-dns.ps1](scripts/23-setup-support-dns.ps1) | Create DNS record for support.servicedesk.lab |
 | [24-osticket-healthcheck-DC01Server.ps1](scripts/24-osticket-healthcheck-DC01Server.ps1) | Domain-side osTicket health check (DNS + port + HTTP) |
 
 ---
@@ -149,7 +149,7 @@ Each ticket is a real request logged in osTicket, worked on the domain by the se
 | [002 – Password Reset](tickets/ticket-002-password-reset.md) | Reset a user's forgotten password | ✅ Resolved |
 | [003 – Account Unlock](tickets/ticket-003-account-unlock.md) | Unlock a locked-out account | ✅ Resolved |
 | [004 – Department Transfer](tickets/ticket-004-department-transfer.md) | Move a user between departments | ✅ Resolved |
-|[005 – Offboarding Employee from company AD](tickets/ticket-005-offoarding-employee.md) | Disable and archive a leaver's account | ✅ Resolved |
+|[005 – Offboarding Employee from company AD](tickets/ticket-005-offboarding-employee.md) | Disable and archive a leaver's account | ✅ Resolved |
 | [006 – Shared Folder Access](tickets/ticket-006-shared-folder-access.md) | Diagnose and fix NTFS/share permissions | ✅ Resolved |
 | [007 - Bulk Logon Hours](tickets/ticket-007-bulk-logon-hours.md) | Apply department-wide logon restrictions | ✅ Resolved |
 | [008 – WSUS Patch Management](tickets/ticket-008-WSUS-patch-management.md) | Approve and verify updates | ✅ Resolved |
